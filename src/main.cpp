@@ -3,6 +3,7 @@
 #include "global/globals.hpp"
 #include "gse/Engine.hpp"
 #include "ResourcesManager.hpp"
+#include "state/GameStateMaster.hpp"
 
 int main()
 {
@@ -19,6 +20,9 @@ int main()
   {
     std::cerr << "Warning: Some resources failed to load." << std::endl;
   }
+
+  state::currentStateId = state::STATE_INTRO;
+  state::currentState = new state::Intro();
 
   std::cout << "Starting the engine's main loop..." << std::endl;
   engine.StartMainLoop();

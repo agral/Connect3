@@ -22,8 +22,6 @@ class Engine
   Engine& operator=(const Engine& instance) = delete;
 
  private:
-  void DrawScene();
-
   bool isInitialized;
   bool isClosing;
   int targetFps;

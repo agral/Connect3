@@ -1,6 +1,7 @@
 #include "Engine.hpp"
 #include "Timer.hpp"
 #include "../ResourcesManager.hpp"
+#include "../state/GameStateMaster.hpp"
 
 #include <iostream>
 #include <limits>
@@ -77,47 +78,37 @@ bool Engine::Init(int windowWidth, int windowHeight, int fps, const char* window
 
 void Engine::StartMainLoop()
 {
-  SDL_Event sdlEvent;
-  bool quitFlag = false;
-
   Timer fpsTimer;
   Timer fpsCapTimer;
   int countedFrames = 0;
 
   fpsTimer.Start();
 
-  while (!(quitFlag or isClosing))
+  while (state::currentStateId != state::STATE_EXIT)
   {
     fpsCapTimer.Start();
 
     // --- Processes the input from the user: ---
-    while (SDL_PollEvent(&sdlEvent) != 0)
-    {
-      if (sdlEvent.type == SDL_QUIT)
-      {
-        quitFlag = true;
-      }
-      else if (sdlEvent.type == SDL_MOUSEBUTTONDOWN)
-      {
-        int x, y;
-        Uint32 buttonState = SDL_GetMouseState(&x, &y);
-
-        if (buttonState & SDL_BUTTON(SDL_BUTTON_LEFT))
-        {
-          std::cout << "LMB Down (" << x << ", " << y << ")" << std::endl;
-        }
-      }
-    }
+    state::currentState->ProcessInput();
 
     // --- Processes the game logic: ---
+    state::currentState->Logic();
+
+    // Changes the state if requested:
+    state::ChangeState();
+
+    // Calculates the overall average FPS:
     double averageFps = countedFrames / (fpsTimer.Ticks() / 1000.0 );
     if (averageFps > 2000000)
     {
       averageFps = 0;
     }
 
-    // --- Renders everything: ---
-    DrawScene();
+    // --- Renders the scene on a black background: ---
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xFF);
+    SDL_RenderClear(renderer);
+    state::currentState->Render();
+    SDL_RenderPresent(renderer);
 
     // --- Caps the frame rate at target frames per second value: ---
     countedFrames += 1;
@@ -151,17 +142,6 @@ void Engine::Close()
 SDL_Renderer* Engine::Renderer() const
 {
   return renderer;
-}
-
-// Private methods' implementation:
-void Engine::DrawScene()
-{
-  SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xFF);
-  SDL_RenderClear(renderer);
-
-  resMgr.txBgIntro.Render(0, 0);
-
-  SDL_RenderPresent(renderer);
 }
 
 } // namespace gse
