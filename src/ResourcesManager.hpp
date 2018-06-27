@@ -1,5 +1,7 @@
-#include "gse/Texture.hpp"
+#ifndef RESOURCESMANAGER_HPP
+#define RESOURCESMANAGER_HPP
 
+#include "gse/Texture.hpp"
 #include <SDL2/SDL.h>
 
 class ResourcesManager
@@ -14,3 +16,5 @@ class ResourcesManager
 };
 
 extern ResourcesManager resMgr;
+
+#endif // RESOURCESMANAGER_HPP
