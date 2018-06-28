@@ -22,7 +22,7 @@ void MainMenu::ProcessInput()
   }
 }
 
-void MainMenu::Logic()
+void MainMenu::Logic(double millisecondsElapsed)
 {
 }
 

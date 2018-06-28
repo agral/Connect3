@@ -11,7 +11,7 @@ class MainMenu : public GameState
 {
  public:
   void ProcessInput();
-  void Logic();
+  void Logic(double millisecondsElapsed);
   void Render();
  private:
 };

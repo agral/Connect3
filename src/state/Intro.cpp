@@ -2,6 +2,7 @@
 #include "../global/globals.hpp"
 
 #include <SDL2/SDL.h>
+#include <iostream>
 
 namespace state
 {
@@ -22,8 +23,9 @@ void Intro::ProcessInput()
   }
 }
 
-void Intro::Logic()
+void Intro::Logic(double millisecondsElapsed)
 {
+  std::cout << "Intro::Logic - " << millisecondsElapsed << " milliseconds elapsed." << std::endl;
 }
 
 void Intro::Render()

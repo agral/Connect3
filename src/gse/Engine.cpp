@@ -3,6 +3,7 @@
 #include "../ResourcesManager.hpp"
 #include "../state/GameStateMaster.hpp"
 
+#include <chrono>
 #include <iostream>
 #include <limits>
 #include <SDL2/SDL_image.h>
@@ -80,9 +81,13 @@ void Engine::StartMainLoop()
 {
   Timer fpsTimer;
   Timer fpsCapTimer;
-  int countedFrames = 0;
+  Timer logicTimer;
 
   fpsTimer.Start();
+  logicTimer.Start();
+
+  int countedFrames = 0;
+  double lastLogicTimerReading = 0.0;
 
   while (state::currentStateId != state::STATE_EXIT)
   {
@@ -92,13 +97,15 @@ void Engine::StartMainLoop()
     state::currentState->ProcessInput();
 
     // --- Processes the game logic: ---
-    state::currentState->Logic();
+    double currentLogicTimerReading = logicTimer.Milliseconds();
+    state::currentState->Logic(currentLogicTimerReading - lastLogicTimerReading);
+    lastLogicTimerReading = currentLogicTimerReading;
 
     // Changes the state if requested:
     state::ChangeState();
 
     // Calculates the overall average FPS:
-    double averageFps = countedFrames / (fpsTimer.Ticks() / 1000.0 );
+    double averageFps = countedFrames / (fpsTimer.Milliseconds() / 1000.0);
     if (averageFps > 2000000)
     {
       averageFps = 0;
@@ -112,10 +119,10 @@ void Engine::StartMainLoop()
 
     // --- Caps the frame rate at target frames per second value: ---
     countedFrames += 1;
-    int frameTicks = fpsCapTimer.Ticks();
-    if (frameTicks < millisecondsPerFrame)
+    double frameDurationMilliseconds = fpsCapTimer.Milliseconds();
+    if (frameDurationMilliseconds < millisecondsPerFrame)
     {
-      SDL_Delay(millisecondsPerFrame - frameTicks);
+      SDL_Delay(millisecondsPerFrame - frameDurationMilliseconds);
     }
 
     std::cout << "Render(): Frame #" << countedFrames << ", average fps = " << averageFps << std::endl;

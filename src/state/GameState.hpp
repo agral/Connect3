@@ -8,7 +8,7 @@ class GameState
 {
  public:
   virtual void ProcessInput() = 0;
-  virtual void Logic() = 0;
+  virtual void Logic(double millisecondsElapsed) = 0;
   virtual void Render() = 0;
   virtual ~GameState() {};
 };
