@@ -4,68 +4,36 @@ namespace gse
 {
 
 Timer::Timer() :
-  startTicks(0),
-  pausedTicks(0),
-  isPaused(false),
   isStarted(false)
 {
 }
 
 void Timer::Start()
 {
-  startTicks = SDL_GetTicks();
-  pausedTicks = 0;
-  isPaused = false;
+  startTimePoint = Clock::now();
   isStarted = true;
 }
 
 void Timer::Stop()
 {
-  pausedTicks = 0;
-  startTicks = 0;
-  isPaused = false;
   isStarted = false;
 }
 
-void Timer::Pause()
+double Timer::Milliseconds() const
 {
-  if (isStarted && !isPaused)
-  {
-    pausedTicks = SDL_GetTicks() - startTicks;
-    startTicks = 0;
-    isPaused = true;
-  }
-}
-
-void Timer::Resume()
-{
-  if (isStarted && isPaused)
-  {
-    startTicks = SDL_GetTicks() - pausedTicks;
-    pausedTicks = 0;
-    isPaused = false;
-  }
-}
-
-Uint32 Timer::Ticks() const
-{
-  Uint32 time = 0;
+  double result = 0.0;
   if (isStarted)
   {
-    time = isPaused ? pausedTicks : SDL_GetTicks() - startTicks;
+    std::chrono::time_point t = Clock::now();
+    result = std::chrono::duration_cast<std::chrono::nanoseconds>(t-startTimePoint).count() / 1000000.0;
   }
 
-  return time;
+  return result;
 }
 
 bool Timer::IsStarted() const
 {
   return isStarted;
-}
-
-bool Timer::IsPaused() const
-{
-  return isPaused;
 }
 
 } // namespace gse

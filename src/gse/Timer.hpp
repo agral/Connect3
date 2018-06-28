@@ -2,9 +2,12 @@
 #define GSE_TIMER_HPP
 
 #include <SDL2/SDL.h>
+#include <chrono>
 
 namespace gse
 {
+
+typedef std::chrono::high_resolution_clock Clock;
 
 class Timer
 {
@@ -12,16 +15,12 @@ class Timer
   Timer();
   void Start();
   void Stop();
-  void Pause();
-  void Resume();
-  Uint32 Ticks() const;
+  double Milliseconds() const;
   bool IsPaused() const;
   bool IsStarted() const;
 
  private:
-   Uint32 startTicks;
-   Uint32 pausedTicks;
-   bool isPaused;
+   std::chrono::time_point<Clock> startTimePoint;
    bool isStarted;
 };
 
