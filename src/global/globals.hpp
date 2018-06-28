@@ -4,10 +4,10 @@
 namespace global
 {
 
-const char* WINDOW_TITLE = "Connect3";
-const int SCREEN_WIDTH = 800;
-const int SCREEN_HEIGHT = 600;
-const int TARGET_FPS = 60;
+extern const char* WINDOW_TITLE;
+extern const int SCREEN_WIDTH;
+extern const int SCREEN_HEIGHT;
+extern const int TARGET_FPS;
 
 } // namespace global
 
