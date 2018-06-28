@@ -1,4 +1,5 @@
 #include "Intro.hpp"
+#include "../global/globals.hpp"
 
 #include <SDL2/SDL.h>
 
@@ -28,6 +29,8 @@ void Intro::Logic()
 void Intro::Render()
 {
   resMgr.txBgIntro.Render(0, 0);
+  resMgr.txLogo.Render((global::SCREEN_WIDTH - resMgr.txLogo.Width()) / 2,
+      (global::SCREEN_HEIGHT - resMgr.txLogo.Height()) / 2 );
 }
 
 } // namespace state

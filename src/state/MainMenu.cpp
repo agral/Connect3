@@ -1,4 +1,5 @@
 #include "MainMenu.hpp"
+#include "../global/globals.hpp"
 
 #include <SDL2/SDL.h>
 
@@ -28,6 +29,7 @@ void MainMenu::Logic()
 void MainMenu::Render()
 {
   resMgr.txBgMainMenu.Render(0, 0);
+  resMgr.txLogo.Render((global::SCREEN_WIDTH - resMgr.txLogo.Width()) / 2, 0);
 }
 
 } // namespace state
