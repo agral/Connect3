@@ -8,7 +8,6 @@
 namespace state
 {
 
-extern enum GameStates;
 extern int currentStateId;
 extern int nextStateId;
 extern GameState* currentState;
