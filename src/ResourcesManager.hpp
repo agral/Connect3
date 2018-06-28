@@ -13,6 +13,7 @@ class ResourcesManager
  public:
   gse::Texture txBgIntro;
   gse::Texture txBgMainMenu;
+  gse::Texture txLogo;
 };
 
 extern ResourcesManager resMgr;
