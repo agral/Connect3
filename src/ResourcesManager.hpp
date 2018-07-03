@@ -14,6 +14,8 @@ class ResourcesManager
   gse::Texture txBgIntro;
   gse::Texture txBgMainMenu;
   gse::Texture txLogo;
+  gse::Texture txBtnTimeTrial;
+  gse::Texture txBtnTimeTrialHighlight;
 };
 
 extern ResourcesManager resMgr;
