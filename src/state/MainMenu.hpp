@@ -21,8 +21,8 @@ class MainMenu : public GameState
   void Render();
  private:
   SDL_Rect logoGeometry;
-  SDL_Rect btnTimeTrialGeometry;
-  bool isBtnTimeTrialHovered;
+  std::unique_ptr<gse::Button> btnTimeTrial;
+
   std::unique_ptr<gse::Button> testButton;
 };
 
