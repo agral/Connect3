@@ -24,7 +24,7 @@ double Timer::Milliseconds() const
   double result = 0.0;
   if (isStarted)
   {
-    std::chrono::time_point t = Clock::now();
+    Clock::time_point t = Clock::now();
     result = std::chrono::duration_cast<std::chrono::nanoseconds>(t-startTimePoint).count() / 1000000.0;
   }
 
