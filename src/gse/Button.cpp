@@ -75,7 +75,6 @@ void Button::ProcessInput(SDL_Event& event)
 
 void Button::Render()
 {
-  std::cout << "Rendering Button at ("<< posX << ", " << posY << "), state=";
   if (state == ButtonState::MOUSEOUT)
   {
     sprite.Render(posX, posY, &clips[0]);
