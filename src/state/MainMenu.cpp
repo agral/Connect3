@@ -12,11 +12,21 @@ void BtnTimeTrialOnClick()
   std::cout << "Entering the Time Trial game - not implemented yet." << std::endl;
 }
 
+void BtnExitOnClick()
+{
+  SetNextStateId(STATE_EXIT);
+}
+
 MainMenu::MainMenu()
 {
+  int buttonX = (global::SCREEN_WIDTH - 400) / 2;
   btnTimeTrial = std::make_unique<gse::Button>(400, 80, resMgr.spBtnTimeTrial);
-  btnTimeTrial->SetPosition((global::SCREEN_WIDTH - 400) / 2, 200);
+  btnTimeTrial->SetPosition(buttonX, 200);
   btnTimeTrial->SetOnClick(&BtnTimeTrialOnClick);
+
+  btnExit = std::make_unique<gse::Button>(400, 80, resMgr.spBtnExit);
+  btnExit->SetPosition(buttonX, 500);
+  btnExit->SetOnClick(&BtnExitOnClick);
 }
 
 void MainMenu::ProcessInput()
@@ -33,6 +43,7 @@ void MainMenu::ProcessInput()
     }
 
     btnTimeTrial->ProcessInput(event, mouseX, mouseY);
+    btnExit->ProcessInput(event, mouseX, mouseY);
   }
 }
 
@@ -46,6 +57,7 @@ void MainMenu::Render()
   resMgr.txLogo.Render((global::SCREEN_WIDTH - resMgr.txLogo.Width()) / 2, 0);
 
   btnTimeTrial->Render();
+  btnExit->Render();
 }
 
 } // namespace state

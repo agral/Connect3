@@ -22,6 +22,7 @@ class MainMenu : public GameState
  private:
   SDL_Rect logoGeometry;
   std::unique_ptr<gse::Button> btnTimeTrial;
+  std::unique_ptr<gse::Button> btnExit;
 };
 
 } // namespace state
