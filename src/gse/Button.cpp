@@ -32,14 +32,11 @@ void Button::SetPosition(int x, int y)
   posY = y;
 }
 
-void Button::ProcessInput(SDL_Event& event)
+void Button::ProcessInput(SDL_Event& event, int mouseX, int mouseY)
 {
   if (event.type == SDL_MOUSEMOTION || event.type == SDL_MOUSEBUTTONDOWN || event.type == SDL_MOUSEBUTTONUP)
   {
-    int x, y;
-    SDL_GetMouseState(&x, &y);
-
-    bool isInside = ((x >= posX) && (x < posX + width) && (y >= posY) && (y < posY + height));
+    bool isInside = ((mouseX >= posX) && (mouseX < posX + width) && (mouseY >= posY) && (mouseY < posY + height));
     if (isInside)
     {
       if (event.type == SDL_MOUSEBUTTONDOWN)

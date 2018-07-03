@@ -15,7 +15,7 @@ class Button
   Button(int w, int h, Texture& s);
   void SetPosition(int x, int y);
 
-  void ProcessInput(SDL_Event& event);
+  void ProcessInput(SDL_Event& event, int mouseX, int mouseY);
   void Render();
   void SetOnClick(void (*ptrToOnClickLogic)());
 

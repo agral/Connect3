@@ -41,8 +41,8 @@ void MainMenu::ProcessInput()
       SetNextStateId(STATE_EXIT);
     }
 
-    testButton->ProcessInput(event);
-    btnTimeTrial->ProcessInput(event);
+    testButton->ProcessInput(event, mouseX, mouseY);
+    btnTimeTrial->ProcessInput(event, mouseX, mouseY);
   }
 }
 
