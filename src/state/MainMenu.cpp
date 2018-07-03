@@ -13,6 +13,9 @@ MainMenu::MainMenu()
   btnTimeTrialGeometry.w = resMgr.txBtnTimeTrial.Width();
   btnTimeTrialGeometry.h = resMgr.txBtnTimeTrial.Height();
   isBtnTimeTrialHovered = false;
+
+  testButton = std::make_unique<gse::Button>(300, 100, resMgr.txButton4Demo);
+  testButton->SetPosition((global::SCREEN_WIDTH - 300) / 2, 400);
 }
 
 void MainMenu::ProcessInput()
@@ -44,6 +47,8 @@ void MainMenu::ProcessInput()
         SetNextStateId(STATE_EXIT);
       }
     }
+
+    testButton->ProcessInput(event);
   }
 }
 
@@ -64,6 +69,8 @@ void MainMenu::Render()
   {
     resMgr.txBtnTimeTrial.Render(btnTimeTrialGeometry.x, btnTimeTrialGeometry.y);
   }
+
+  testButton->Render();
 }
 
 } // namespace state

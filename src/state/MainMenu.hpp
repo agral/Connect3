@@ -3,8 +3,10 @@
 
 #include "GameState.hpp"
 #include "../ResourcesManager.hpp"
+#include "../gse/Button.hpp"
 
 #include <SDL2/SDL.h>
+#include <memory>
 
 namespace state
 {
@@ -21,6 +23,7 @@ class MainMenu : public GameState
   SDL_Rect logoGeometry;
   SDL_Rect btnTimeTrialGeometry;
   bool isBtnTimeTrialHovered;
+  std::unique_ptr<gse::Button> testButton;
 };
 
 } // namespace state
