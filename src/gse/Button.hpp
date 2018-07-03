@@ -17,6 +17,7 @@ class Button
 
   void ProcessInput(SDL_Event& event);
   void Render();
+  void SetOnClick(void (*ptrToOnClickLogic)());
 
  private:
   int posX;
@@ -25,7 +26,8 @@ class Button
   int height;
   Texture& sprite;
   ButtonState state;
-  SDL_Rect clips[4];
+  SDL_Rect clips[3];
+  void (*onClick)();
 };
 
 

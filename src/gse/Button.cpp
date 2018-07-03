@@ -9,8 +9,7 @@ enum class ButtonState
 {
   MOUSEOUT,
   MOUSEOVER,
-  CLICKED,
-  RELEASED,
+  PUSHED,
 };
 
 Button::Button(int w, int h, Texture& s) :
@@ -19,12 +18,12 @@ Button::Button(int w, int h, Texture& s) :
   width(w),
   height(h),
   sprite(s),
-  state(ButtonState::MOUSEOUT)
+  state(ButtonState::MOUSEOUT),
+  onClick(nullptr)
 {
   clips[0] = { 0, 0, w, h };
   clips[1] = { 0, h, w, h };
   clips[2] = { 0, 2 * h, w, h};
-  clips[3] = { 0, 3 * h, w, h};
 }
 
 void Button::SetPosition(int x, int y)
@@ -45,15 +44,26 @@ void Button::ProcessInput(SDL_Event& event)
     {
       if (event.type == SDL_MOUSEBUTTONDOWN)
       {
-        state = ButtonState::CLICKED;
+        state = ButtonState::PUSHED;
       }
       else if (event.type == SDL_MOUSEBUTTONUP)
       {
-        state = ButtonState::RELEASED;
+        state = ButtonState::MOUSEOVER;
+        if (onClick != nullptr)
+        {
+          (*onClick)();
+        }
+        else
+        {
+          std::cout << "Button::onClick() - logic not implemented." << std::endl;
+        }
       }
       else if (event.type == SDL_MOUSEMOTION)
       {
-        state = ButtonState::MOUSEOVER;
+        if (state != ButtonState::PUSHED)
+        {
+          state = ButtonState::MOUSEOVER;
+        }
       }
     }
     else
@@ -69,23 +79,20 @@ void Button::Render()
   if (state == ButtonState::MOUSEOUT)
   {
     sprite.Render(posX, posY, &clips[0]);
-    std::cout << "MOUSEOUT" << std::endl;
   }
   else if (state == ButtonState::MOUSEOVER)
   {
     sprite.Render(posX, posY, &clips[1]);
-    std::cout << "MOUSEOVER" << std::endl;
   }
-  else if (state == ButtonState::CLICKED)
+  else if (state == ButtonState::PUSHED)
   {
     sprite.Render(posX, posY, &clips[2]);
-    std::cout << "CLICKED" << std::endl;
   }
-  else
-  {
-    sprite.Render(posX, posY, &clips[3]);
-    std::cout << "RELEASED" << std::endl;
-  }
+}
+
+void Button::SetOnClick(void (*ptrToOnClickLogic)())
+{
+  onClick = ptrToOnClickLogic;
 }
 
 } // namespace gse
