@@ -16,6 +16,7 @@ class ResourcesManager
   gse::Texture txLogo;
   gse::Texture txBtnTimeTrial;
   gse::Texture txBtnTimeTrialHighlight;
+  gse::Texture txButton4Demo;
 };
 
 extern ResourcesManager resMgr;

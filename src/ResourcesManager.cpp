@@ -9,6 +9,7 @@ bool ResourcesManager::LoadResources(SDL_Renderer* renderer)
   successFlag &= txLogo.LoadFromFile("./res/logo.png", renderer);
   successFlag &= txBtnTimeTrial.LoadFromFile("./res/btn_timetrial_normal.png", renderer);
   successFlag &= txBtnTimeTrialHighlight.LoadFromFile("./res/btn_timetrial_highlight.png", renderer);
+  successFlag &= txButton4Demo.LoadFromFile("./res/button4.png", renderer);
 
   return successFlag;
 }
@@ -20,6 +21,7 @@ void ResourcesManager::FreeResources()
   txLogo.Free();
   txBtnTimeTrial.Free();
   txBtnTimeTrialHighlight.Free();
+  txButton4Demo.Free();
 }
 
 ResourcesManager resMgr;
