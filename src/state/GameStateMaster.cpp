@@ -33,6 +33,10 @@ void ChangeState()
     {
       currentState = new MainMenu();
     }
+    else if (nextStateId == STATE_TIMETRIAL)
+    {
+      currentState = new TimeTrial();
+    }
 
     currentStateId = nextStateId;
     nextStateId = STATE_NONE;

@@ -4,6 +4,7 @@
 #include "GameState.hpp"
 #include "Intro.hpp"
 #include "MainMenu.hpp"
+#include "TimeTrial.hpp"
 
 namespace state
 {

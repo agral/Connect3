@@ -9,7 +9,7 @@ namespace state
 
 void BtnTimeTrialOnClick()
 {
-  std::cout << "Entering the Time Trial game - not implemented yet." << std::endl;
+  SetNextStateId(STATE_TIMETRIAL);
 }
 
 void BtnExitOnClick()
