@@ -2,9 +2,15 @@
 #include "../global/globals.hpp"
 
 #include <SDL2/SDL.h>
+#include <iostream>
 
 namespace state
 {
+
+void DemoButtonOnClick()
+{
+  std::cout << "Clicked the demo button." << std::endl;
+}
 
 MainMenu::MainMenu()
 {
@@ -16,6 +22,7 @@ MainMenu::MainMenu()
 
   testButton = std::make_unique<gse::Button>(300, 100, resMgr.txButton4Demo);
   testButton->SetPosition((global::SCREEN_WIDTH - 300) / 2, 400);
+  testButton->SetOnClick(&DemoButtonOnClick);
 }
 
 void MainMenu::ProcessInput()
