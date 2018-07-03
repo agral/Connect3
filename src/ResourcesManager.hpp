@@ -15,6 +15,7 @@ class ResourcesManager
   gse::Texture txBgMainMenu;
   gse::Texture txLogo;
   gse::Texture spBtnTimeTrial;
+  gse::Texture spBtnExit;
 };
 
 extern ResourcesManager resMgr;
