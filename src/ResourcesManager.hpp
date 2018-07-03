@@ -14,9 +14,6 @@ class ResourcesManager
   gse::Texture txBgIntro;
   gse::Texture txBgMainMenu;
   gse::Texture txLogo;
-  gse::Texture txBtnTimeTrial;
-  gse::Texture txBtnTimeTrialHighlight;
-  gse::Texture txButton4Demo;
   gse::Texture spBtnTimeTrial;
 };
 
