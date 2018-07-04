@@ -3,6 +3,7 @@
 
 #include "GameState.hpp"
 #include "../ResourcesManager.hpp"
+#include "../GameBoard.hpp"
 
 #include <SDL2/SDL.h>
 
@@ -18,6 +19,8 @@ class TimeTrial : public GameState
   void Render();
  private:
   SDL_Rect orbClips[5];
+  GameBoard board;
+  void DrawBoard(int posX, int posY);
 };
 
 } // namespace state
