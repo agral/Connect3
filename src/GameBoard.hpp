@@ -30,6 +30,9 @@ class GameBoard
   std::vector<std::vector<Gem>> board;
   int width;
   int height;
+
+  // Helper function to FindChains - marks all the nodes of the discovered chain:
+  void MarkChain(int tailY, int tailX, int length, bool isVertical);
 };
 
 

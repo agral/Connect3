@@ -72,5 +72,57 @@ Gem GameBoard::At(int y, int x) const
 
 bool GameBoard::FindChains()
 {
-  return false;
+  bool areChainsFound = false;
+  int y, x;
+
+  // Looks for horizontal chains:
+  for (y = 0; y < height; ++y)
+  {
+    int lastColorCode = -1;
+    int chainLengthSoFar = 0;
+    for (x = 0; x < width; ++x)
+    {
+      if (board[y][x].color == lastColorCode)
+      {
+        ++chainLengthSoFar;
+      }
+      else
+      {
+        if (chainLengthSoFar >= 3)
+        {
+          MarkChain(y, x - 1, chainLengthSoFar, false);
+          areChainsFound = true;
+        }
+
+        lastColorCode = board[y][x].color;
+        chainLengthSoFar = 1;
+      }
+    }
+    if (chainLengthSoFar >= 3)
+    {
+      MarkChain(y, x-1, chainLengthSoFar, false);
+    }
+  }
+
+  return areChainsFound;
+}
+
+
+// Private helper methods follow:
+
+void GameBoard::MarkChain(int tailY, int tailX, int length, bool isVertical)
+{
+  for (int k = 0; k < length; ++k)
+  {
+    if (isVertical)
+    {
+      board[tailY - k][tailX].isPartOfChain = true;
+      std::cout << "Marked: y=" << tailY - k << ", x=" << tailX << " as part of a chain of length" << length << "." << std::endl;
+    }
+    else
+    {
+      board[tailY][tailX - k].isPartOfChain = true;
+      std::cout << "Marked: y=" << tailY << ", x=" << tailX - k << " as part of a chain of length" << length << "." << std::endl;
+    }
+  }
 }
