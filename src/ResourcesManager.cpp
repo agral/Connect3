@@ -9,6 +9,7 @@ bool ResourcesManager::LoadResources(SDL_Renderer* renderer)
   successFlag &= txLogo.LoadFromFile("./res/logo.png", renderer);
   successFlag &= spBtnTimeTrial.LoadFromFile("./res/spritesheet_btn_timetrial.png", renderer);
   successFlag &= spBtnExit.LoadFromFile("./res/spritesheet_btn_exit.png", renderer);
+  successFlag &= spOrbs.LoadFromFile("./res/spritesheet_orbs.png", renderer);
 
   return successFlag;
 }
@@ -20,6 +21,7 @@ void ResourcesManager::FreeResources()
   txLogo.Free();
   spBtnTimeTrial.Free();
   spBtnExit.Free();
+  spOrbs.Free();
 }
 
 ResourcesManager resMgr;
