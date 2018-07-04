@@ -8,6 +8,7 @@ struct Gem
 
  public:
   int color;
+  bool isPartOfChain;
 };
 
 #endif // GEM_HPP
