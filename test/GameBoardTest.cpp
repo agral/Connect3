@@ -5,8 +5,8 @@
 
 std::vector<std::vector<int>> r3 = {
   {1, 2, 3},
-  {2, 3, 4},
-  {3, 4, 2}
+  {4, 5, 6},
+  {7, 8, 9}
 };
 
 TEST_CASE("Loading Board from a vector works correctly")
@@ -19,7 +19,7 @@ TEST_CASE("Loading Board from a vector works correctly")
     {
       for (unsigned long x = 0; x < r3[y].size(); ++x)
       {
-        CHECK(gb.At(x, y).color == r3[y][x]);
+        CHECK(gb.At(y, x).color == r3[y][x]);
       }
     }
   }
@@ -35,5 +35,3 @@ TEST_CASE("Loading Board from a vector works correctly")
     }
   }
 }
-
-
