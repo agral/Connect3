@@ -66,7 +66,7 @@ void TimeTrial::DrawBoard(int posX, int posY)
   {
     for(int y = 0; y < global::GAMEBOARD_HEIGHT; ++y)
     {
-      resMgr.spOrbs.Render(posX + (x * ORB_SIZE), posY + (y * ORB_SIZE), &orbClips[board.At(x, y)]);
+      resMgr.spOrbs.Render(posX + (x * ORB_SIZE), posY + (y * ORB_SIZE), &orbClips[board.At(x, y).color]);
     }
   }
 }

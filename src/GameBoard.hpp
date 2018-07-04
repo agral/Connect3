@@ -1,6 +1,8 @@
 #ifndef GAMEBOARD_HPP
 #define GAMEBOARD_HPP
 
+#include "Gem.hpp"
+
 #include <random>
 #include <vector>
 
@@ -10,12 +12,12 @@ class GameBoard
   GameBoard();
   void SetSize(int newWidth, int newHeight);
   void NewGame();
-  int At(int x, int y) const;
+  Gem At(int x, int y) const;
 
  private:
   std::mt19937 rng;
   std::uniform_int_distribution<std::mt19937::result_type> distOrb;
-  std::vector<std::vector<int>> board;
+  std::vector<std::vector<Gem>> board;
   int width;
   int height;
 };

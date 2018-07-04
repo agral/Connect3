@@ -36,12 +36,12 @@ void GameBoard::NewGame()
   {
     for (int y = 0; y < global::GAMEBOARD_HEIGHT; ++y)
     {
-      board[x][y] = distOrb(rng);
+      board[x][y] = Gem(distOrb(rng));
     }
   }
 }
 
-int GameBoard::At(int x, int y) const
+Gem GameBoard::At(int x, int y) const
 {
   if ((x >= 0) && (x < width) && (y >= 0) && (y < height))
   {
