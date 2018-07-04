@@ -23,4 +23,17 @@ TEST_CASE("Loading Board from a vector works correctly")
       }
     }
   }
+
+  SECTION("isPartOfChain flag is unset for every Gem")
+  {
+    for (unsigned long y = 0; y < r3.size(); ++y)
+    {
+      for (unsigned long x = 0; x < r3[y].size(); ++x)
+      {
+        CHECK(gb.At(x, y).isPartOfChain == false);
+      }
+    }
+  }
 }
+
+
