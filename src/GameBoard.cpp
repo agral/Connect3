@@ -41,6 +41,21 @@ void GameBoard::FillRandomly()
   }
 }
 
+void GameBoard::LoadFromVector(std::vector<std::vector<int>> colorRepresentation)
+{
+  int newWidth = colorRepresentation.size();
+  int newHeight = colorRepresentation[0].size();
+
+  SetSize(newWidth, newHeight);
+  for (auto x = 0; x < width; ++x)
+  {
+    for (auto y = 0; y < height; ++y)
+    {
+      board[x][y].color = 0;
+    }
+  }
+}
+
 Gem GameBoard::At(int x, int y) const
 {
   if ((x >= 0) && (x < width) && (y >= 0) && (y < height))
