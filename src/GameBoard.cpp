@@ -51,7 +51,7 @@ void GameBoard::LoadFromVector(std::vector<std::vector<int>> colorRepresentation
   {
     for (auto y = 0; y < height; ++y)
     {
-      board[x][y].color = 0;
+      board[x][y].color = colorRepresentation[y][x];
     }
   }
 }
