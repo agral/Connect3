@@ -100,7 +100,36 @@ bool GameBoard::FindChains()
     }
     if (chainLengthSoFar >= 3)
     {
-      MarkChain(y, x-1, chainLengthSoFar, false);
+      MarkChain(y, x - 1, chainLengthSoFar, false);
+    }
+  }
+
+  // Looks for vertical chains by applying slightly different logic:
+  for (x = 0; x < width; ++x)
+  {
+    int lastColorCode = -1;
+    int chainLengthSoFar = 0;
+    for (y = 0; y < height; ++y)
+    {
+      if (board[y][x].color == lastColorCode)
+      {
+        ++chainLengthSoFar;
+      }
+      else
+      {
+        if (chainLengthSoFar >= 3)
+        {
+          MarkChain(y - 1, x, chainLengthSoFar, true);
+          areChainsFound = true;
+        }
+
+        lastColorCode = board[y][x].color;
+        chainLengthSoFar = 1;
+      }
+    }
+    if (chainLengthSoFar >= 3)
+    {
+      MarkChain(y - 1, x, chainLengthSoFar, true);
     }
   }
 
@@ -117,12 +146,10 @@ void GameBoard::MarkChain(int tailY, int tailX, int length, bool isVertical)
     if (isVertical)
     {
       board[tailY - k][tailX].isPartOfChain = true;
-      std::cout << "Marked: y=" << tailY - k << ", x=" << tailX << " as part of a chain of length" << length << "." << std::endl;
     }
     else
     {
       board[tailY][tailX - k].isPartOfChain = true;
-      std::cout << "Marked: y=" << tailY << ", x=" << tailX - k << " as part of a chain of length" << length << "." << std::endl;
     }
   }
 }
