@@ -8,8 +8,8 @@ GameBoard::GameBoard() :
   width(0),
   height(0)
 {
-  rng.seed(std::random_device()());
-  distOrb = std::uniform_int_distribution<std::mt19937::result_type>(0, global::ORBS_TYPES_COUNT - 1);
+  twister.seed(std::random_device()());
+  distGem = std::uniform_int_distribution<std::mt19937::result_type>(0, global::ORBS_TYPES_COUNT - 1);
 }
 
 void GameBoard::SetSize(int newWidth, int newHeight)
@@ -36,7 +36,7 @@ void GameBoard::NewGame()
   {
     for (int y = 0; y < global::GAMEBOARD_HEIGHT; ++y)
     {
-      board[x][y] = Gem(distOrb(rng));
+      board[x][y] = Gem(distGem(twister));
     }
   }
 }
