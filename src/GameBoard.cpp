@@ -20,10 +20,10 @@ void GameBoard::SetSize(int newWidth, int newHeight)
     throw new std::domain_error("GameBoard::SetSize() called with wrong width/height value");
   }
 
-  board.resize(global::GAMEBOARD_WIDTH);
-  for (int x = 0; x < global::GAMEBOARD_WIDTH; ++x)
+  board.resize(newWidth);
+  for (int x = 0; x < newWidth; ++x)
   {
-    board[x].resize(global::GAMEBOARD_HEIGHT);
+    board[x].resize(newHeight);
   }
 
   width = newWidth;
@@ -32,9 +32,9 @@ void GameBoard::SetSize(int newWidth, int newHeight)
 
 void GameBoard::NewGame()
 {
-  for (int x = 0; x < global::GAMEBOARD_WIDTH; ++x)
+  for (int x = 0; x < width; ++x)
   {
-    for (int y = 0; y < global::GAMEBOARD_HEIGHT; ++y)
+    for (int y = 0; y < height; ++y)
     {
       board[x][y] = Gem(distGem(twister));
     }
