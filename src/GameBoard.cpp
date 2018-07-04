@@ -30,7 +30,7 @@ void GameBoard::SetSize(int newWidth, int newHeight)
   height = newHeight;
 }
 
-void GameBoard::NewGame()
+void GameBoard::FillRandomly()
 {
   for (int x = 0; x < width; ++x)
   {

@@ -18,7 +18,7 @@ TimeTrial::TimeTrial()
   orbClips[4] = {4 * ORB_SIZE, 0, ORB_SIZE, ORB_SIZE};
 
   board.SetSize(global::GAMEBOARD_WIDTH, global::GAMEBOARD_HEIGHT);
-  board.NewGame();
+  board.FillRandomly();
 }
 
 void TimeTrial::ProcessInput()

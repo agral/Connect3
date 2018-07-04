@@ -11,7 +11,7 @@ class GameBoard
  public:
   GameBoard();
   void SetSize(int newWidth, int newHeight);
-  void NewGame();
+  void FillRandomly();
   Gem At(int x, int y) const;
 
  private:
