@@ -68,3 +68,8 @@ Gem GameBoard::At(int x, int y) const
     throw new std::domain_error("At() called with indices out of bounds.");
   }
 }
+
+bool GameBoard::FindChains()
+{
+  return false;
+}
