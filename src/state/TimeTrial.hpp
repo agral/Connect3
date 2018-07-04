@@ -17,6 +17,7 @@ class TimeTrial : public GameState
   void Logic(double millisecondsElapsed);
   void Render();
  private:
+  SDL_Rect orbClips[5];
 };
 
 } // namespace state
