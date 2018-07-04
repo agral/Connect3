@@ -20,10 +20,10 @@ void GameBoard::SetSize(int newWidth, int newHeight)
     throw new std::domain_error("GameBoard::SetSize() called with wrong width/height value");
   }
 
-  board.resize(newWidth);
-  for (int x = 0; x < newWidth; ++x)
+  board.resize(newHeight);
+  for (auto& row : board)
   {
-    board[x].resize(newHeight);
+    row.resize(newWidth);
   }
 
   width = newWidth;
@@ -32,11 +32,11 @@ void GameBoard::SetSize(int newWidth, int newHeight)
 
 void GameBoard::FillRandomly()
 {
-  for (int x = 0; x < width; ++x)
+  for (auto& row : board)
   {
-    for (int y = 0; y < height; ++y)
+    for (auto& gem : row)
     {
-      board[x][y] = Gem(distGem(twister));
+      gem = Gem(distGem(twister));
     }
   }
 }
@@ -47,20 +47,21 @@ void GameBoard::LoadFromVector(std::vector<std::vector<int>> colorRepresentation
   int newHeight = colorRepresentation[0].size();
 
   SetSize(newWidth, newHeight);
-  for (auto x = 0; x < width; ++x)
+  for (auto y = 0; y < height; ++y)
   {
-    for (auto y = 0; y < height; ++y)
+    for (auto x = 0; x < width; ++x)
     {
-      board[x][y].color = colorRepresentation[y][x];
+      board[y][x].color = colorRepresentation[y][x];
+      board[y][x].isPartOfChain = false;
     }
   }
 }
 
-Gem GameBoard::At(int x, int y) const
+Gem GameBoard::At(int y, int x) const
 {
   if ((x >= 0) && (x < width) && (y >= 0) && (y < height))
   {
-    return board[x][y];
+    return board[y][x];
   }
   else
   {
