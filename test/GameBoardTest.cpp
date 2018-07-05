@@ -34,24 +34,28 @@ TEST_CASE("Loading Board from a vector works correctly")
   gb.LoadFromVector(r3);
   SECTION("Colors are set accordingly")
   {
+    bool colorsAreAssignedCorrectly = true;
     for (unsigned long y = 0; y < r3.size(); ++y)
     {
       for (unsigned long x = 0; x < r3[y].size(); ++x)
       {
-        CHECK(gb.At(y, x).color == r3[y][x]);
+        colorsAreAssignedCorrectly &= (gb.At(y, x).color == r3[y][x]);
       }
     }
+    REQUIRE(colorsAreAssignedCorrectly);
   }
 
   SECTION("isPartOfChain flag is unset for every Gem")
   {
+    bool isFlagSet = false;
     for (unsigned long y = 0; y < r3.size(); ++y)
     {
       for (unsigned long x = 0; x < r3[y].size(); ++x)
       {
-        CHECK(gb.At(x, y).isPartOfChain == false);
+        isFlagSet |= (gb.At(x, y).isPartOfChain);
       }
     }
+    REQUIRE_FALSE(isFlagSet);
   }
 }
 
