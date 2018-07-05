@@ -19,6 +19,7 @@ TimeTrial::TimeTrial()
 
   board.SetSize(global::GAMEBOARD_WIDTH, global::GAMEBOARD_HEIGHT);
   board.FillRandomly();
+  board.FindChains();
 }
 
 void TimeTrial::ProcessInput()
@@ -66,6 +67,10 @@ void TimeTrial::DrawBoard(int posX, int posY)
   {
     for(int y = 0; y < global::GAMEBOARD_HEIGHT; ++y)
     {
+      if (board.At(x, y).isPartOfChain)
+      {
+        resMgr.txHalo.Render(posX + (x * ORB_SIZE), posY + (y * ORB_SIZE));
+      }
       resMgr.spOrbs.Render(posX + (x * ORB_SIZE), posY + (y * ORB_SIZE), &orbClips[board.At(x, y).color]);
     }
   }
