@@ -49,14 +49,6 @@ void TimeTrial::Logic(double millisecondsElapsed)
 void TimeTrial::Render()
 {
   //Render any background?
-  resMgr.txLogo.Render((global::SCREEN_WIDTH - resMgr.txLogo.Width()) / 2,
-      (global::SCREEN_HEIGHT - resMgr.txLogo.Height()) / 2);
-
-  resMgr.spOrbs.Render(0, 0, &orbClips[0]);
-  resMgr.spOrbs.Render(global::SCREEN_WIDTH - ORB_SIZE, 0, &orbClips[1]);
-  resMgr.spOrbs.Render(0, global::SCREEN_HEIGHT - ORB_SIZE, &orbClips[2]);
-  resMgr.spOrbs.Render(global::SCREEN_WIDTH - ORB_SIZE, global::SCREEN_HEIGHT - ORB_SIZE, &orbClips[3]);
-
   DrawBoard((global::SCREEN_WIDTH - (global::GAMEBOARD_WIDTH * ORB_SIZE)) / 2,
       (global::SCREEN_HEIGHT - global::GAMEBOARD_HEIGHT * ORB_SIZE) / 2);
 }
@@ -67,10 +59,6 @@ void TimeTrial::DrawBoard(int posX, int posY)
   {
     for(int y = 0; y < global::GAMEBOARD_HEIGHT; ++y)
     {
-      if (board.At(x, y).isPartOfChain)
-      {
-        resMgr.txHalo.Render(posX + (x * ORB_SIZE), posY + (y * ORB_SIZE));
-      }
       resMgr.spOrbs.Render(posX + (x * ORB_SIZE), posY + (y * ORB_SIZE), &orbClips[board.At(x, y).color]);
     }
   }
