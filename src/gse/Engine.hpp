@@ -26,6 +26,9 @@ class Engine
   bool isClosing;
   int targetFps;
   int millisecondsPerFrame;
+  unsigned long countedFrames;
+  bool isReportingFrameNumbers;
+  bool isReportingFps;
 
   SDL_Window* window;
   SDL_Renderer* renderer;

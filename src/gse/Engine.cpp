@@ -16,7 +16,10 @@ Engine::Engine() :
   isInitialized(false),
   isClosing(false),
   targetFps(0),
-  millisecondsPerFrame(std::numeric_limits<int>::max())
+  millisecondsPerFrame(std::numeric_limits<int>::max()),
+  countedFrames(0UL),
+  isReportingFrameNumbers(false),
+  isReportingFps(false)
 {
 }
 
@@ -128,7 +131,19 @@ void Engine::StartMainLoop()
       SDL_Delay(millisecondsPerFrame - frameDurationMilliseconds);
     }
 
-    std::cout << "Render(): Frame #" << countedFrames << ", average fps = " << averageFps << std::endl;
+    if (isReportingFrameNumbers || isReportingFps)
+    {
+      std::cout << "Render(): ";
+      if (isReportingFrameNumbers)
+      {
+        std::cout << "frame #" << countedFrames << (isReportingFps ? ", " : "");
+      }
+      if (isReportingFps)
+      {
+        std:: cout << "average FPS = " << averageFps;
+      }
+      std::cout << std::endl;
+    }
   }
 }
 
