@@ -137,10 +137,10 @@ void TimeTrial::Logic(gse::GameTimeData td)
 void TimeTrial::Render()
 {
   // Render any background?
-  DrawBoard(boardGeometry.x, boardGeometry.y);
+  DrawBoard();
 }
 
-void TimeTrial::DrawBoard(int posX, int posY)
+void TimeTrial::DrawBoard()
 {
   for (int x = 0; x < board.Width(); ++x)
   {
@@ -150,15 +150,19 @@ void TimeTrial::DrawBoard(int posX, int posY)
       if (isDragging && (x == draggedGemXIndex) && (y == draggedGemYIndex))
       {
         resMgr.spOrbs.Render(
-            posX + board.At(x, y).posX + dragDistanceX,
-            posY + board.At(x, y).posY + dragDistanceY,
+            boardGeometry.x + board.At(x, y).posX + dragDistanceX,
+            boardGeometry.y + board.At(x, y).posY + dragDistanceY,
             &orbClips[board.At(x, y).color]
         );
       }
       // Renders all the other gems normally:
       else
       {
-        resMgr.spOrbs.Render(posX + board.At(x, y).posX, posY + board.At(x, y).posY, &orbClips[board.At(x, y).color]);
+        resMgr.spOrbs.Render(
+            boardGeometry.x + board.At(x, y).posX,
+            boardGeometry.y + board.At(x, y).posY,
+            &orbClips[board.At(x, y).color]
+        );
       }
     }
   }

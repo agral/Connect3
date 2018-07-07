@@ -32,7 +32,7 @@ class TimeTrial : public GameState
   SDL_Rect boardGeometry;
   GameBoard board;
   GamePhase phase;
-  void DrawBoard(int posX, int posY);
+  void DrawBoard();
 
   bool isDragging;
   int draggedGemXIndex, draggedGemYIndex;
