@@ -52,7 +52,7 @@ void TimeTrial::ProcessInput()
   }
 }
 
-void TimeTrial::Logic(double millisecondsElapsed)
+void TimeTrial::Logic(gse::GameTimeData td)
 {
   if (phase == GamePhase::FALLING)
   {
@@ -64,8 +64,8 @@ void TimeTrial::Logic(double millisecondsElapsed)
         if (board.At(x, y).isFalling)
         {
           isStillFalling = true;
-          board.At(x, y).velocityY += global::gravityConstant * millisecondsElapsed;
-          board.At(x, y).posY += board.At(x, y).velocityY * millisecondsElapsed;
+          board.At(x, y).velocityY += global::gravityConstant * td.timeSinceLastFrame;
+          board.At(x, y).posY += board.At(x, y).velocityY * td.timeSinceLastFrame;
           if (board.At(x, y).posY > y * ORB_SIZE)
           {
             board.At(x, y).isFalling = false;

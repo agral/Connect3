@@ -11,7 +11,7 @@ class Intro : public GameState
 {
  public:
   void ProcessInput();
-  void Logic(double millisecondsElapsed);
+  void Logic(gse::GameTimeData);
   void Render();
  private:
 };

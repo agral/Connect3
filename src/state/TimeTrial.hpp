@@ -24,7 +24,7 @@ class TimeTrial : public GameState
  public:
   TimeTrial();
   void ProcessInput();
-  void Logic(double millisecondsElapsed);
+  void Logic(gse::GameTimeData td);
   void Render();
  private:
   SDL_Rect orbClips[5];

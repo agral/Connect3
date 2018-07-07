@@ -1,6 +1,8 @@
 #ifndef STATE_GAMESTATE_HPP
 #define STATE_GAMESTATE_HPP
 
+#include "../gse/GameTimeData.hpp"
+
 namespace state
 {
 
@@ -8,7 +10,7 @@ class GameState
 {
  public:
   virtual void ProcessInput() = 0;
-  virtual void Logic(double millisecondsElapsed) = 0;
+  virtual void Logic(gse::GameTimeData td) = 0;
   virtual void Render() = 0;
   virtual ~GameState() {};
 };

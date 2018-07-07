@@ -47,7 +47,7 @@ void MainMenu::ProcessInput()
   }
 }
 
-void MainMenu::Logic(double millisecondsElapsed)
+void MainMenu::Logic(gse::GameTimeData)
 {
 }
 

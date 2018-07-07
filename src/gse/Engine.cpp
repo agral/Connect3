@@ -1,4 +1,5 @@
 #include "Engine.hpp"
+#include "GameTimeData.hpp"
 #include "Timer.hpp"
 #include "../ResourcesManager.hpp"
 #include "../state/GameStateMaster.hpp"
@@ -88,6 +89,7 @@ void Engine::StartMainLoop()
 
   int countedFrames = 0;
   double lastLogicTimerReading = 0.0;
+  GameTimeData gameTimeData;
 
   while (state::currentStateId != state::STATE_EXIT)
   {
@@ -97,9 +99,10 @@ void Engine::StartMainLoop()
     state::currentState->ProcessInput();
 
     // --- Processes the game logic: ---
-    double currentLogicTimerReading = logicTimer.Milliseconds();
-    state::currentState->Logic(currentLogicTimerReading - lastLogicTimerReading);
-    lastLogicTimerReading = currentLogicTimerReading;
+    gameTimeData.timeTotal = logicTimer.Milliseconds();
+    gameTimeData.timeSinceLastFrame = gameTimeData.timeTotal - lastLogicTimerReading;
+    lastLogicTimerReading = gameTimeData.timeTotal;
+    state::currentState->Logic(gameTimeData);
 
     // Changes the state if requested:
     state::ChangeState();

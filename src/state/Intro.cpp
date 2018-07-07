@@ -23,9 +23,8 @@ void Intro::ProcessInput()
   }
 }
 
-void Intro::Logic(double millisecondsElapsed)
+void Intro::Logic(gse::GameTimeData)
 {
-  std::cout << "Intro::Logic - " << millisecondsElapsed << " milliseconds elapsed." << std::endl;
 }
 
 void Intro::Render()

@@ -17,7 +17,7 @@ class MainMenu : public GameState
   MainMenu();
 
   void ProcessInput();
-  void Logic(double millisecondsElapsed);
+  void Logic(gse::GameTimeData);
   void Render();
  private:
   SDL_Rect logoGeometry;
