@@ -19,6 +19,9 @@ void BtnExitOnClick()
 
 MainMenu::MainMenu()
 {
+  logoGeometry = {(global::SCREEN_WIDTH - resMgr.txLogo.Width()) / 2, 0, resMgr.txLogo.Width(), resMgr.txLogo.Height()};
+  threeGeometry = {logoGeometry.x + 262, 0, resMgr.txThreeRed.Width(), resMgr.txThreeRed.Height()};
+  threeAlpha = 0;
   int buttonX = (global::SCREEN_WIDTH - 400) / 2;
   btnTimeTrial = std::make_unique<gse::Button>(400, 80, resMgr.spBtnTimeTrial);
   btnTimeTrial->SetPosition(buttonX, 200);
@@ -47,14 +50,18 @@ void MainMenu::ProcessInput()
   }
 }
 
-void MainMenu::Logic(gse::GameTimeData)
+void MainMenu::Logic(gse::GameTimeData td)
 {
+  threeAlpha = 128 * (1 + std::cos( 2 * M_PI * td.timeTotal / 1000 / 4));
 }
 
 void MainMenu::Render()
 {
   resMgr.txBgMainMenu.Render(0, 0);
-  resMgr.txLogo.Render((global::SCREEN_WIDTH - resMgr.txLogo.Width()) / 2, 0);
+  resMgr.txLogo.Render(logoGeometry.x, logoGeometry.y);
+
+  resMgr.txThreeRed.SetAlpha(threeAlpha);
+  resMgr.txThreeRed.Render(threeGeometry.x, threeGeometry.y);
 
   btnTimeTrial->Render();
   btnExit->Render();

@@ -17,12 +17,14 @@ class MainMenu : public GameState
   MainMenu();
 
   void ProcessInput();
-  void Logic(gse::GameTimeData);
+  void Logic(gse::GameTimeData td);
   void Render();
  private:
   SDL_Rect logoGeometry;
+  SDL_Rect threeGeometry;
   std::unique_ptr<gse::Button> btnTimeTrial;
   std::unique_ptr<gse::Button> btnExit;
+  Uint8 threeAlpha;
 };
 
 } // namespace state
