@@ -10,6 +10,15 @@
 namespace state
 {
 
+enum class GamePhase
+{
+  IDLE,
+  SWAPPING,
+  EXPLODING,
+  FALLING,
+  OVER,
+};
+
 class TimeTrial : public GameState
 {
  public:
