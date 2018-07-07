@@ -4,6 +4,8 @@ Gem::Gem(int color, double posX, double posY) :
   color(color),
   posX(posX),
   posY(posY),
-  isPartOfChain(false)
+  velocityY(0),
+  isPartOfChain(false),
+  isFalling(false)
 {
 }

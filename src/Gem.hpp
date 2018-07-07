@@ -10,7 +10,9 @@ struct Gem
   int color;
   double posX;
   double posY;
+  double velocityY;
   bool isPartOfChain;
+  bool isFalling;
 };
 
 #endif // GEM_HPP
