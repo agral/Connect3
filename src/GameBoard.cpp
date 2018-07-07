@@ -32,11 +32,11 @@ void GameBoard::SetSize(int newWidth, int newHeight)
 
 void GameBoard::FillRandomly()
 {
-  for (auto& row : board)
+  for (auto y = 0; y < height; ++y)
   {
-    for (auto& gem : row)
+    for (auto x = 0; x < width; ++x)
     {
-      gem = Gem(distGem(twister));
+      board[y][x] = Gem(distGem(twister), x * global::ORB_SIZE, y * global::ORB_SIZE);
     }
   }
 }
@@ -52,6 +52,8 @@ void GameBoard::LoadFromVector(std::vector<std::vector<int>> colorRepresentation
     for (auto x = 0; x < width; ++x)
     {
       board[y][x].color = colorRepresentation[y][x];
+      board[y][x].posX = x * global::ORB_SIZE;
+      board[y][x].posY = y * global::ORB_SIZE;
       board[y][x].isPartOfChain = false;
     }
   }
