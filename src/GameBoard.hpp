@@ -23,7 +23,7 @@ class GameBoard
    */
   bool FindChains();
 
-  Gem At(int y, int x) const;
+  Gem& At(int x, int y);
 
  private:
   std::mt19937 twister;

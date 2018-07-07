@@ -7,7 +7,7 @@
 namespace state
 {
 
-const int ORB_SIZE = 64;
+const int ORB_SIZE = global::ORB_SIZE;
 
 TimeTrial::TimeTrial()
 {
@@ -59,7 +59,7 @@ void TimeTrial::DrawBoard(int posX, int posY)
   {
     for(int y = 0; y < global::GAMEBOARD_HEIGHT; ++y)
     {
-      resMgr.spOrbs.Render(posX + (x * ORB_SIZE), posY + (y * ORB_SIZE), &orbClips[board.At(x, y).color]);
+      resMgr.spOrbs.Render(posX + board.At(x, y).posX, posY + board.At(x, y).posY, &orbClips[board.At(x, y).color]);
     }
   }
 }

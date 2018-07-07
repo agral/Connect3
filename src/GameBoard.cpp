@@ -59,7 +59,7 @@ void GameBoard::LoadFromVector(std::vector<std::vector<int>> colorRepresentation
   }
 }
 
-Gem GameBoard::At(int y, int x) const
+Gem& GameBoard::At(int x, int y)
 {
   if ((x >= 0) && (x < width) && (y >= 0) && (y < height))
   {
