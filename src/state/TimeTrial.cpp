@@ -155,17 +155,29 @@ void TimeTrial::DrawBoard()
             &orbClips[board.At(x, y).color]
         );
       }
+      else if (isDragging && (x == draggedGemXIndex) && (y == draggedGemYIndex))
+      {
+        resMgr.spOrbs.SetAlpha(0.25 * 255);
+        resMgr.spOrbs.Render(
+            boardGeometry.x + board.At(x, y).posX,
+            boardGeometry.y + board.At(x, y).posY,
+            &orbClips[board.At(x, y).color]
+        );
+        resMgr.spOrbs.SetAlpha(255);
+      }
     }
   }
 
   // Renders the currently dragged gem (if any) at nonstandard position:
   if (isDragging)
   {
+    resMgr.spOrbs.SetAlpha(0.8 * 255);
     resMgr.spOrbs.Render(
         boardGeometry.x + board.At(draggedGemXIndex, draggedGemYIndex).posX + dragDistanceX,
         boardGeometry.y + board.At(draggedGemXIndex, draggedGemYIndex).posY + dragDistanceY,
         &orbClips[board.At(draggedGemXIndex, draggedGemYIndex).color]
     );
+    resMgr.spOrbs.SetAlpha(255);
   }
 }
 
