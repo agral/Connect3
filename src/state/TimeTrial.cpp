@@ -146,17 +146,8 @@ void TimeTrial::DrawBoard()
   {
     for(int y = 0; y < board.Height(); ++y)
     {
-      // Renders the currently dragged gem (if any) at nonstandard position:
-      if (isDragging && (x == draggedGemXIndex) && (y == draggedGemYIndex))
-      {
-        resMgr.spOrbs.Render(
-            boardGeometry.x + board.At(x, y).posX + dragDistanceX,
-            boardGeometry.y + board.At(x, y).posY + dragDistanceY,
-            &orbClips[board.At(x, y).color]
-        );
-      }
-      // Renders all the other gems normally:
-      else
+      // Renders all the static gems normally:
+      if (!(isDragging && (x == draggedGemXIndex) && (y == draggedGemYIndex)))
       {
         resMgr.spOrbs.Render(
             boardGeometry.x + board.At(x, y).posX,
@@ -165,6 +156,16 @@ void TimeTrial::DrawBoard()
         );
       }
     }
+  }
+
+  // Renders the currently dragged gem (if any) at nonstandard position:
+  if (isDragging)
+  {
+    resMgr.spOrbs.Render(
+        boardGeometry.x + board.At(draggedGemXIndex, draggedGemYIndex).posX + dragDistanceX,
+        boardGeometry.y + board.At(draggedGemXIndex, draggedGemYIndex).posY + dragDistanceY,
+        &orbClips[board.At(draggedGemXIndex, draggedGemYIndex).color]
+    );
   }
 }
 
