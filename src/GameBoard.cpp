@@ -59,29 +59,6 @@ void GameBoard::LoadFromVector(std::vector<std::vector<int>> colorRepresentation
   }
 }
 
-Gem& GameBoard::At(int x, int y)
-{
-  if ((x >= 0) && (x < width) && (y >= 0) && (y < height))
-  {
-    return board[y][x];
-  }
-  else
-  {
-    std::cout << "GameBoard::At(" << x << ", " << y << ") invoked." << std::endl;
-    throw new std::domain_error("At() called with indices out of bounds.");
-  }
-}
-
-int GameBoard::Height() const
-{
-  return height;
-}
-
-int GameBoard::Width() const
-{
-  return width;
-}
-
 bool GameBoard::FindChains()
 {
   bool areChainsFound = false;
@@ -148,9 +125,30 @@ bool GameBoard::FindChains()
   return areChainsFound;
 }
 
+Gem& GameBoard::At(int x, int y)
+{
+  if ((x >= 0) && (x < width) && (y >= 0) && (y < height))
+  {
+    return board[y][x];
+  }
+  else
+  {
+    std::cout << "GameBoard::At(" << x << ", " << y << ") invoked." << std::endl;
+    throw new std::domain_error("At() called with indices out of bounds.");
+  }
+}
+
+int GameBoard::Height() const
+{
+  return height;
+}
+
+int GameBoard::Width() const
+{
+  return width;
+}
 
 // Private helper methods follow:
-
 void GameBoard::MarkChain(int tailY, int tailX, int length, bool isVertical)
 {
   for (int k = 0; k < length; ++k)
