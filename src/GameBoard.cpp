@@ -148,6 +148,17 @@ bool GameBoard::FindChains()
   return areChainsFound;
 }
 
+void GameBoard::ClearIsPartOfChain()
+{
+  for (auto& row : board)
+  {
+    for (auto& gem : row)
+    {
+      gem.isPartOfChain = false;
+    }
+  }
+}
+
 Gem& GameBoard::At(int x, int y)
 {
   if ((x >= 0) && (x < width) && (y >= 0) && (y < height))

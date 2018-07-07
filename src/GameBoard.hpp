@@ -23,6 +23,7 @@ class GameBoard
    * \return true iff there is at least one chain present in the board.
    */
   bool FindChains();
+  void ClearIsPartOfChain();
 
   Gem& At(int x, int y);
   int Height() const;
