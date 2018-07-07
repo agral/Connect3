@@ -18,7 +18,7 @@ TimeTrial::TimeTrial()
   orbClips[4] = {4 * ORB_SIZE, 0, ORB_SIZE, ORB_SIZE};
 
   board.SetSize(global::GAMEBOARD_WIDTH, global::GAMEBOARD_HEIGHT);
-  board.FillRandomly();
+  board.FillRandomlyWithoutChains();
 
   for (auto y = 0; y < board.Height(); ++y)
   {

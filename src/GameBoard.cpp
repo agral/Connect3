@@ -41,6 +41,27 @@ void GameBoard::FillRandomly()
   }
 }
 
+void GameBoard::FillRandomlyWithoutChains()
+{
+  FillRandomly();
+
+  // Re-draws the color of every Gem that consitutes a chain:
+  while (FindChains())
+  {
+    for (auto y = 0; y < height; ++y)
+    {
+      for (auto x = 0; x < width; ++x)
+      {
+        if (board[y][x].isPartOfChain)
+        {
+          board[y][x].color = distGem(twister);
+          board[y][x].isPartOfChain = false;
+        }
+      }
+    }
+  }
+}
+
 void GameBoard::LoadFromVector(std::vector<std::vector<int>> colorRepresentation)
 {
   int newWidth = colorRepresentation.size();

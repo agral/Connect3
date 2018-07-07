@@ -12,6 +12,7 @@ class GameBoard
   GameBoard();
   void SetSize(int newWidth, int newHeight);
   void FillRandomly();
+  void FillRandomlyWithoutChains();
   void LoadFromVector(std::vector<std::vector<int>> colorRepresentation);
 
   /**
