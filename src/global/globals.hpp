@@ -11,6 +11,7 @@ extern const int TARGET_FPS;
 extern const int GAMEBOARD_HEIGHT;
 extern const int GAMEBOARD_WIDTH;
 extern const int ORBS_TYPES_COUNT;
+extern const int ORB_SIZE;
 
 } // namespace global
 

@@ -10,5 +10,6 @@ const int TARGET_FPS = 60;
 const int GAMEBOARD_HEIGHT = 8;
 const int GAMEBOARD_WIDTH = 8;
 const int ORBS_TYPES_COUNT = 5;
+const int ORB_SIZE = 64;
 
 } // namespace global
