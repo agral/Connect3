@@ -13,6 +13,8 @@ class Texture
   ~Texture();
   bool LoadFromFile(const char* path, SDL_Renderer* renderer);
   void Free();
+  void SetBlendMode(SDL_BlendMode blendMode);
+  void SetAlpha(Uint8 alpha);
   void Render(int x, int y, SDL_Rect *clip = nullptr, double angle = 0.0,
       SDL_Point* center = nullptr, SDL_RendererFlip flip = SDL_FLIP_NONE);
 

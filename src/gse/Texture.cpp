@@ -49,6 +49,10 @@ bool Texture::LoadFromFile(const char* path, SDL_Renderer* r)
     std::cerr << "SDL error: " << SDL_GetError() << std::endl;
     return false;
   }
+  else
+  {
+    SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
+  }
   width = surface->w;
   height = surface->h;
 
@@ -65,6 +69,16 @@ void Texture::Free()
     width = 0;
     height = 0;
   }
+}
+
+void Texture::SetBlendMode(SDL_BlendMode blendMode)
+{
+  SDL_SetTextureBlendMode(texture, blendMode);
+}
+
+void Texture::SetAlpha(Uint8 alpha)
+{
+  SDL_SetTextureAlphaMod(texture, alpha);
 }
 
 void Texture::Render(int x, int y, SDL_Rect *clip, double angle, SDL_Point* center, SDL_RendererFlip flip)
