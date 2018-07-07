@@ -36,14 +36,13 @@ TimeTrial::TimeTrial()
     }
   }
 
+  isDragging = false;
   phase = GamePhase::FALLING;
 }
 
 void TimeTrial::ProcessInput()
 {
   SDL_Event event;
-  int mouseX, mouseY;
-  SDL_GetMouseState(&mouseX, &mouseY);
 
   while (SDL_PollEvent(&event))
   {
@@ -52,9 +51,47 @@ void TimeTrial::ProcessInput()
       SetNextStateId(STATE_EXIT);
     }
 
-    if (event.type == SDL_MOUSEBUTTONDOWN)
+    if ((event.type == SDL_MOUSEBUTTONDOWN) || (event.type == SDL_MOUSEBUTTONUP) || (event.type == SDL_MOUSEMOTION))
     {
-      SetNextStateId(STATE_MAINMENU);
+      int mouseX, mouseY;
+      SDL_GetMouseState(&mouseX, &mouseY);
+
+      // Regardless of the position of the cursor, the dragging ends when the user releases the mouse:
+      if (event.type == SDL_MOUSEBUTTONUP)
+      {
+        isDragging = false;
+      }
+
+      // If the mouse is over the board, and the game accepts user input (is in "IDLE" state):
+      if ((phase == GamePhase::IDLE) &&
+          (mouseX >= boardGeometry.x) && (mouseX < boardGeometry.x + boardGeometry.w) &&
+          (mouseY >= boardGeometry.y) && (mouseY < boardGeometry.y + boardGeometry.h))
+      {
+        if (event.type == SDL_MOUSEBUTTONUP)
+        {
+          // @TODO: implement click-to-swap scenario.
+
+          // @TODO: implement swipe-to-swap scenario.
+        }
+        else if (event.type == SDL_MOUSEBUTTONDOWN)
+        {
+          dragOriginX = mouseX;
+          dragOriginY = mouseY;
+          dragDistanceX = 0;
+          dragDistanceY = 0;
+          draggedGemXIndex = (mouseX - boardGeometry.x) / ORB_SIZE;
+          draggedGemYIndex = (mouseY - boardGeometry.y) / ORB_SIZE;
+          isDragging = true;
+        }
+        else if (event.type == SDL_MOUSEMOTION)
+        {
+          if (isDragging)
+          {
+            dragDistanceX = mouseX - dragOriginX;
+            dragDistanceY = mouseY - dragOriginY;
+          }
+        }
+      }
     }
   }
 }
@@ -109,7 +146,20 @@ void TimeTrial::DrawBoard(int posX, int posY)
   {
     for(int y = 0; y < board.Height(); ++y)
     {
-      resMgr.spOrbs.Render(posX + board.At(x, y).posX, posY + board.At(x, y).posY, &orbClips[board.At(x, y).color]);
+      // Renders the currently dragged gem (if any) at nonstandard position:
+      if (isDragging && (x == draggedGemXIndex) && (y == draggedGemYIndex))
+      {
+        resMgr.spOrbs.Render(
+            posX + board.At(x, y).posX + dragDistanceX,
+            posY + board.At(x, y).posY + dragDistanceY,
+            &orbClips[board.At(x, y).color]
+        );
+      }
+      // Renders all the other gems normally:
+      else
+      {
+        resMgr.spOrbs.Render(posX + board.At(x, y).posX, posY + board.At(x, y).posY, &orbClips[board.At(x, y).color]);
+      }
     }
   }
 }

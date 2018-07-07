@@ -33,6 +33,11 @@ class TimeTrial : public GameState
   GameBoard board;
   GamePhase phase;
   void DrawBoard(int posX, int posY);
+
+  bool isDragging;
+  int draggedGemXIndex, draggedGemYIndex;
+  int dragOriginX, dragOriginY;
+  int dragDistanceX, dragDistanceY;
 };
 
 } // namespace state
