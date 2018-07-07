@@ -15,6 +15,7 @@ class ResourcesManager
   gse::Texture txBgMainMenu;
   gse::Texture txHalo;
   gse::Texture txLogo;
+  gse::Texture txThreeRed;
   gse::Texture spBtnExit;
   gse::Texture spBtnTimeTrial;
   gse::Texture spOrbs;
