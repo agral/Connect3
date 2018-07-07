@@ -10,6 +10,11 @@ namespace state
 
 const int ORB_SIZE = global::ORB_SIZE;
 
+inline int Signum(int value)
+{
+  return (value > 0) - (value < 0);
+}
+
 TimeTrial::TimeTrial()
 {
   orbClips[0] = {0, 0, ORB_SIZE, ORB_SIZE};
@@ -174,6 +179,14 @@ void TimeTrial::DrawBoard()
   {
     int filteredDistanceX = std::abs(dragDistanceX) > std::abs(dragDistanceY) ? dragDistanceX : 0;
     int filteredDistanceY = std::abs(dragDistanceX) > std::abs(dragDistanceY) ? 0 : dragDistanceY;
+    if (std::abs(filteredDistanceX) > ORB_SIZE)
+    {
+      filteredDistanceX = Signum(filteredDistanceX) * (ORB_SIZE + std::log(std::abs(filteredDistanceX) - ORB_SIZE));
+    }
+    else if (std::abs(filteredDistanceY) > ORB_SIZE)
+    {
+      filteredDistanceY = Signum(filteredDistanceY) * (ORB_SIZE + std::log(std::abs(filteredDistanceY) - ORB_SIZE));
+    }
 
     resMgr.spOrbs.SetAlpha(0.8 * 255);
     resMgr.spOrbs.Render(
