@@ -1,8 +1,9 @@
 #include "GameBoard.hpp"
 #include "global/globals.hpp"
 
-#include <stdexcept>
+#include <algorithm>
 #include <iostream>
+#include <stdexcept>
 
 GameBoard::GameBoard() :
   width(0),
@@ -157,6 +158,11 @@ void GameBoard::ClearIsPartOfChain()
       gem.isPartOfChain = false;
     }
   }
+}
+
+void GameBoard::SwapColors(int ax, int ay, int bx, int by)
+{
+  std::swap(this->At(ax, ay).color, this->At(bx, by).color);
 }
 
 Gem& GameBoard::At(int x, int y)

@@ -24,6 +24,7 @@ class GameBoard
    */
   bool FindChains();
   void ClearIsPartOfChain();
+  void SwapColors(int ax, int ay, int bx, int by);
 
   Gem& At(int x, int y);
   int Height() const;
