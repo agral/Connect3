@@ -72,6 +72,16 @@ Gem& GameBoard::At(int x, int y)
   }
 }
 
+int GameBoard::Height() const
+{
+  return height;
+}
+
+int GameBoard::Width() const
+{
+  return width;
+}
+
 bool GameBoard::FindChains()
 {
   bool areChainsFound = false;
