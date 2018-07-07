@@ -17,6 +17,13 @@ TimeTrial::TimeTrial()
   orbClips[3] = {3 * ORB_SIZE, 0, ORB_SIZE, ORB_SIZE};
   orbClips[4] = {4 * ORB_SIZE, 0, ORB_SIZE, ORB_SIZE};
 
+  boardGeometry = {
+    (global::SCREEN_WIDTH - (global::GAMEBOARD_WIDTH * ORB_SIZE)) / 2,
+    (global::SCREEN_HEIGHT - (global::GAMEBOARD_HEIGHT * ORB_SIZE)) / 2,
+    global::GAMEBOARD_WIDTH * ORB_SIZE,
+    global::GAMEBOARD_HEIGHT * ORB_SIZE
+  };
+
   board.SetSize(global::GAMEBOARD_WIDTH, global::GAMEBOARD_HEIGHT);
   board.FillRandomlyWithoutChains();
 
@@ -72,27 +79,28 @@ void TimeTrial::Logic(gse::GameTimeData td)
             board.At(x, y).posY = y * ORB_SIZE;
           }
         }
-        if ((x == 3) && (y == 3))
-        {
-          std::cout << "Velocity Y: " << board.At(x, y).velocityY;
-          std::cout << ", X: " << board.At(x, y).posX << ", Y: " << board.At(x, y).posY;
-          std::cout << ", isFalling: " << board.At(x, y).isFalling << std::endl;
-        }
       }
     }
 
     if (!isStillFalling)
     {
-      std::cout << "Switch me back to IDLE/EXPLODING state!" << std::endl;
+      if (board.FindChains())
+      {
+        // @TODO Explode the chains
+      }
+      else
+      {
+        phase = GamePhase::IDLE;
+        std::cout << "Switching to IDLE." << std::endl;
+      }
     }
   }
 }
 
 void TimeTrial::Render()
 {
-  //Render any background?
-  DrawBoard((global::SCREEN_WIDTH - (board.Width() * ORB_SIZE)) / 2,
-      (global::SCREEN_HEIGHT - board.Height() * ORB_SIZE) / 2);
+  // Render any background?
+  DrawBoard(boardGeometry.x, boardGeometry.y);
 }
 
 void TimeTrial::DrawBoard(int posX, int posY)
@@ -101,10 +109,6 @@ void TimeTrial::DrawBoard(int posX, int posY)
   {
     for(int y = 0; y < board.Height(); ++y)
     {
-      if ((x == 3) && (y == 3) && (phase == GamePhase::FALLING))
-      {
-        std::cout << posX + board.At(x, y).posX << std::endl;
-      }
       resMgr.spOrbs.Render(posX + board.At(x, y).posX, posY + board.At(x, y).posY, &orbClips[board.At(x, y).color]);
     }
   }

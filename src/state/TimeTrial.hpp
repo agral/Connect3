@@ -26,8 +26,10 @@ class TimeTrial : public GameState
   void ProcessInput();
   void Logic(gse::GameTimeData td);
   void Render();
+
  private:
   SDL_Rect orbClips[5];
+  SDL_Rect boardGeometry;
   GameBoard board;
   GamePhase phase;
   void DrawBoard(int posX, int posY);
