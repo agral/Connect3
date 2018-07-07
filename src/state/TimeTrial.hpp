@@ -29,6 +29,7 @@ class TimeTrial : public GameState
  private:
   SDL_Rect orbClips[5];
   GameBoard board;
+  GamePhase phase;
   void DrawBoard(int posX, int posY);
 };
 

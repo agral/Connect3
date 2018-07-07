@@ -19,7 +19,17 @@ TimeTrial::TimeTrial()
 
   board.SetSize(global::GAMEBOARD_WIDTH, global::GAMEBOARD_HEIGHT);
   board.FillRandomly();
-  board.FindChains();
+
+  for (auto y = 0; y < board.Height(); ++y)
+  {
+    for (auto x = 0; x < board.Width(); ++x)
+    {
+      board.At(x, y).posY = ORB_SIZE * (y - board.Height());
+      board.At(x, y).isFalling = true;
+    }
+  }
+
+  phase = GamePhase::FALLING;
 }
 
 void TimeTrial::ProcessInput()
@@ -44,21 +54,57 @@ void TimeTrial::ProcessInput()
 
 void TimeTrial::Logic(double millisecondsElapsed)
 {
+  if (phase == GamePhase::FALLING)
+  {
+    bool isStillFalling = false;
+    for (auto y = 0; y < board.Height(); ++y)
+    {
+      for (auto x = 0; x < board.Width(); ++x)
+      {
+        if (board.At(x, y).isFalling)
+        {
+          isStillFalling = true;
+          board.At(x, y).velocityY += global::gravityConstant * millisecondsElapsed;
+          board.At(x, y).posY += board.At(x, y).velocityY * millisecondsElapsed;
+          if (board.At(x, y).posY > y * ORB_SIZE)
+          {
+            board.At(x, y).isFalling = false;
+            board.At(x, y).posY = y * ORB_SIZE;
+          }
+        }
+        if ((x == 3) && (y == 3))
+        {
+          std::cout << "Velocity Y: " << board.At(x, y).velocityY;
+          std::cout << ", X: " << board.At(x, y).posX << ", Y: " << board.At(x, y).posY;
+          std::cout << ", isFalling: " << board.At(x, y).isFalling << std::endl;
+        }
+      }
+    }
+
+    if (!isStillFalling)
+    {
+      std::cout << "Switch me back to IDLE/EXPLODING state!" << std::endl;
+    }
+  }
 }
 
 void TimeTrial::Render()
 {
   //Render any background?
-  DrawBoard((global::SCREEN_WIDTH - (global::GAMEBOARD_WIDTH * ORB_SIZE)) / 2,
-      (global::SCREEN_HEIGHT - global::GAMEBOARD_HEIGHT * ORB_SIZE) / 2);
+  DrawBoard((global::SCREEN_WIDTH - (board.Width() * ORB_SIZE)) / 2,
+      (global::SCREEN_HEIGHT - board.Height() * ORB_SIZE) / 2);
 }
 
 void TimeTrial::DrawBoard(int posX, int posY)
 {
-  for (int x = 0; x < global::GAMEBOARD_WIDTH; ++x)
+  for (int x = 0; x < board.Width(); ++x)
   {
-    for(int y = 0; y < global::GAMEBOARD_HEIGHT; ++y)
+    for(int y = 0; y < board.Height(); ++y)
     {
+      if ((x == 3) && (y == 3) && (phase == GamePhase::FALLING))
+      {
+        std::cout << posX + board.At(x, y).posX << std::endl;
+      }
       resMgr.spOrbs.Render(posX + board.At(x, y).posX, posY + board.At(x, y).posY, &orbClips[board.At(x, y).color]);
     }
   }
