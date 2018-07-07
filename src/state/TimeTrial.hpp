@@ -38,6 +38,7 @@ class TimeTrial : public GameState
   int draggedGemXIndex, draggedGemYIndex;
   int dragOriginX, dragOriginY;
   int dragDistanceX, dragDistanceY;
+  int filteredDragDistanceX, filteredDragDistanceY;
 };
 
 } // namespace state

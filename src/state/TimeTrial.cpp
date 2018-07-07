@@ -9,6 +9,7 @@ namespace state
 {
 
 const int ORB_SIZE = global::ORB_SIZE;
+const int DRAG_THRESHOLD = 0.3 * ORB_SIZE;
 
 inline int Signum(int value)
 {
@@ -75,9 +76,40 @@ void TimeTrial::ProcessInput()
       {
         if (event.type == SDL_MOUSEBUTTONUP)
         {
-          // @TODO: implement click-to-swap scenario.
+          if (std::max(std::abs(filteredDragDistanceX), std::abs(filteredDragDistanceY)) < DRAG_THRESHOLD)
+          {
+            // @TODO: implement click-to-swap scenario.
+          }
+          else
+          {
+            // @TODO: implement swipe-to-swap scenario.
+            int otherGemXIndex = draggedGemXIndex;
+            int otherGemYIndex = draggedGemYIndex;
+            if (filteredDragDistanceX < -DRAG_THRESHOLD)
+            {
+              otherGemXIndex -= 1;
+            }
+            else if (filteredDragDistanceX > DRAG_THRESHOLD)
+            {
+              otherGemXIndex += 1;
+            }
+            else if (filteredDragDistanceY < -DRAG_THRESHOLD)
+            {
+              otherGemYIndex -= 1;
+            }
+            else if (filteredDragDistanceY > DRAG_THRESHOLD)
+            {
+              otherGemYIndex += 1;
+            }
 
-          // @TODO: implement swipe-to-swap scenario.
+            // Safeguards against dragging Gems off the board:
+            if ((otherGemXIndex >= 0) && (otherGemXIndex < board.Width()) &&
+                (otherGemYIndex >= 0) && (otherGemYIndex < board.Height()))
+            {
+              std::cout << "SWAP: [" << draggedGemXIndex << ", " << draggedGemYIndex
+                  << "] and [" << otherGemXIndex << ", " << otherGemYIndex << "]" << std::endl;
+            }
+          }
         }
         else if (event.type == SDL_MOUSEBUTTONDOWN)
         {
@@ -177,21 +209,23 @@ void TimeTrial::DrawBoard()
   // Renders the currently dragged gem (if any) at nonstandard position:
   if (isDragging)
   {
-    int filteredDistanceX = std::abs(dragDistanceX) > std::abs(dragDistanceY) ? dragDistanceX : 0;
-    int filteredDistanceY = std::abs(dragDistanceX) > std::abs(dragDistanceY) ? 0 : dragDistanceY;
-    if (std::abs(filteredDistanceX) > ORB_SIZE)
+    filteredDragDistanceX = std::abs(dragDistanceX) > std::abs(dragDistanceY) ? dragDistanceX : 0;
+    filteredDragDistanceY = std::abs(dragDistanceX) > std::abs(dragDistanceY) ? 0 : dragDistanceY;
+    if (std::abs(filteredDragDistanceX) > ORB_SIZE)
     {
-      filteredDistanceX = Signum(filteredDistanceX) * (ORB_SIZE + std::log(std::abs(filteredDistanceX) - ORB_SIZE));
+      filteredDragDistanceX =
+          Signum(filteredDragDistanceX) * (ORB_SIZE + std::log(std::abs(filteredDragDistanceX) - ORB_SIZE));
     }
-    else if (std::abs(filteredDistanceY) > ORB_SIZE)
+    else if (std::abs(filteredDragDistanceY) > ORB_SIZE)
     {
-      filteredDistanceY = Signum(filteredDistanceY) * (ORB_SIZE + std::log(std::abs(filteredDistanceY) - ORB_SIZE));
+      filteredDragDistanceY =
+          Signum(filteredDragDistanceY) * (ORB_SIZE + std::log(std::abs(filteredDragDistanceY) - ORB_SIZE));
     }
 
     resMgr.spOrbs.SetAlpha(0.8 * 255);
     resMgr.spOrbs.Render(
-        boardGeometry.x + board.At(draggedGemXIndex, draggedGemYIndex).posX + filteredDistanceX,
-        boardGeometry.y + board.At(draggedGemXIndex, draggedGemYIndex).posY + filteredDistanceY,
+        boardGeometry.x + board.At(draggedGemXIndex, draggedGemYIndex).posX + filteredDragDistanceX,
+        boardGeometry.y + board.At(draggedGemXIndex, draggedGemYIndex).posY + filteredDragDistanceY,
         &orbClips[board.At(draggedGemXIndex, draggedGemYIndex).color]
     );
     resMgr.spOrbs.SetAlpha(255);
