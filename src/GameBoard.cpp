@@ -111,6 +111,7 @@ bool GameBoard::FindChains()
     if (chainLengthSoFar >= 3)
     {
       MarkChain(y, x - 1, chainLengthSoFar, false);
+      areChainsFound = true;
     }
   }
 
@@ -140,6 +141,7 @@ bool GameBoard::FindChains()
     if (chainLengthSoFar >= 3)
     {
       MarkChain(y - 1, x, chainLengthSoFar, true);
+      areChainsFound = true;
     }
   }
 
