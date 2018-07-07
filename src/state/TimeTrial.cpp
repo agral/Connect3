@@ -2,6 +2,7 @@
 #include "../global/globals.hpp"
 
 #include <SDL2/SDL.h>
+#include <cmath>
 #include <iostream>
 
 namespace state
@@ -171,10 +172,13 @@ void TimeTrial::DrawBoard()
   // Renders the currently dragged gem (if any) at nonstandard position:
   if (isDragging)
   {
+    int filteredDistanceX = std::abs(dragDistanceX) > std::abs(dragDistanceY) ? dragDistanceX : 0;
+    int filteredDistanceY = std::abs(dragDistanceX) > std::abs(dragDistanceY) ? 0 : dragDistanceY;
+
     resMgr.spOrbs.SetAlpha(0.8 * 255);
     resMgr.spOrbs.Render(
-        boardGeometry.x + board.At(draggedGemXIndex, draggedGemYIndex).posX + dragDistanceX,
-        boardGeometry.y + board.At(draggedGemXIndex, draggedGemYIndex).posY + dragDistanceY,
+        boardGeometry.x + board.At(draggedGemXIndex, draggedGemYIndex).posX + filteredDistanceX,
+        boardGeometry.y + board.At(draggedGemXIndex, draggedGemYIndex).posY + filteredDistanceY,
         &orbClips[board.At(draggedGemXIndex, draggedGemYIndex).color]
     );
     resMgr.spOrbs.SetAlpha(255);
