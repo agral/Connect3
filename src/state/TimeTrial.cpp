@@ -106,8 +106,21 @@ void TimeTrial::ProcessInput()
             if ((otherGemXIndex >= 0) && (otherGemXIndex < board.Width()) &&
                 (otherGemYIndex >= 0) && (otherGemYIndex < board.Height()))
             {
+              // Swaps the two gems on a model board:
               std::cout << "SWAP: [" << draggedGemXIndex << ", " << draggedGemYIndex
                   << "] and [" << otherGemXIndex << ", " << otherGemYIndex << "]" << std::endl;
+
+              board.SwapColors(draggedGemXIndex, draggedGemYIndex, otherGemXIndex, otherGemYIndex);
+              if (board.FindChains())
+              {
+                std::cout << "SWAP OK - Chains are formed." << std::endl;
+              }
+              else
+              {
+                std::cout << "Swap failed - no new chains." << std::endl;
+              }
+              // Reverts this change back
+              board.SwapColors(draggedGemXIndex, draggedGemYIndex, otherGemXIndex, otherGemYIndex);
             }
           }
         }
