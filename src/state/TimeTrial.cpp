@@ -11,6 +11,7 @@ namespace state
 const int ORB_SIZE = global::ORB_SIZE;
 const int DRAG_THRESHOLD = 0.3 * ORB_SIZE;
 const double swapAnimationTime = 400; //milliseconds
+const double explodeAnimationTime = 1000; // milliseconds
 
 inline int Signum(int value)
 {
@@ -187,12 +188,11 @@ void TimeTrial::Logic(gse::GameTimeData td)
     {
       if (board.FindChains())
       {
-        // @TODO Explode the chains
+        nextPhase = GamePhase::EXPLODING;
       }
       else
       {
         nextPhase = GamePhase::IDLE;
-        std::cout << "Switching to IDLE." << std::endl;
       }
     }
   }
@@ -200,7 +200,7 @@ void TimeTrial::Logic(gse::GameTimeData td)
   {
     double animTime = td.timeTotal - phaseBirth;
 
-    // Easing function: sin(t) from 0.5PI (max) to 1.5PI (min)
+    // Easing function: sin(t) from 0.5PI (max) to 1.5PI (min), mapped to [ORB_SIZE -> 0] range
     double distance = animTime > swapAnimationTime ?
         0 : (0.5 * ORB_SIZE * (1 + std::sin(M_PI * (animTime / swapAnimationTime + 0.5))));
 
@@ -228,6 +228,58 @@ void TimeTrial::Logic(gse::GameTimeData td)
       nextPhase = GamePhase::EXPLODING;
     }
   }
+  else if (phase == GamePhase::EXPLODING)
+  {
+    double animTime = td.timeTotal - phaseBirth;
+    if ( animTime > explodeAnimationTime )
+    {
+      std::cout << "End of Explode animation" << std::endl;
+
+      for (int x = 0; x < board.Width(); ++x)
+      {
+        int explodedBelowCounter = 0;
+        for (int y = board.Height() - 1; y >= 0; --y)
+        {
+          if (board.At(x, y).isPartOfChain)
+          {
+            explodedBelowCounter += 1;
+          }
+          else
+          {
+            if (explodedBelowCounter > 0)
+            {
+              // Sets the Gem at its target position on the GameBoard model (as if it already fell):
+              board.At(x, y + explodedBelowCounter).color = board.At(x, y).color;
+
+              // Sets its rendering Y-position exactly where it were so that its fall will be smooth:
+              board.At(x, y + explodedBelowCounter).posY = y * ORB_SIZE;
+
+              board.At(x, y + explodedBelowCounter).velocityY = 0;
+              board.At(x, y + explodedBelowCounter).isPartOfChain = false;
+              board.At(x, y + explodedBelowCounter).isFalling = true;
+            }
+          }
+        }
+        // Adds "new" random Gems in place of those exploded. They start their fall from just above the board:
+        for (int z = explodedBelowCounter - 1; z >= 0; --z)
+        {
+          board.SetRandomColor(x, z);
+          board.At(x, z).posY = (z - explodedBelowCounter) * ORB_SIZE;
+          board.At(x, z).velocityY = 0;
+          board.At(x, z).isPartOfChain = false;
+          board.At(x, z).isFalling = true;
+        }
+      }
+
+      nextPhase = GamePhase::FALLING;
+    }
+    else
+    {
+      // Easing function: cos^2(t) from 0 (max) to PI (min), mapped to [255 -> 0] range:
+      double factor =  0.5 * (1 + std::cos(M_PI * (animTime / explodeAnimationTime)));
+      explodingAlpha = 255 * factor * factor;
+    }
+  }
 }
 
 void TimeTrial::Render()
@@ -243,7 +295,8 @@ void TimeTrial::DrawBoard()
     for(int y = 0; y < board.Height(); ++y)
     {
       // Renders all the static gems normally:
-      if (!(isDragging && (x == draggedGemXIndex) && (y == draggedGemYIndex)))
+      if ((!(isDragging && (x == draggedGemXIndex) && (y == draggedGemYIndex))) &&
+          (!((phase == GamePhase::EXPLODING) && (board.At(x, y).isPartOfChain))))
       {
         resMgr.spOrbs.Render(
             boardGeometry.x + board.At(x, y).posX,
@@ -254,6 +307,16 @@ void TimeTrial::DrawBoard()
       else if (isDragging && (x == draggedGemXIndex) && (y == draggedGemYIndex))
       {
         resMgr.spOrbs.SetAlpha(0.25 * 255);
+        resMgr.spOrbs.Render(
+            boardGeometry.x + board.At(x, y).posX,
+            boardGeometry.y + board.At(x, y).posY,
+            &orbClips[board.At(x, y).color]
+        );
+        resMgr.spOrbs.SetAlpha(255);
+      }
+      else if ((phase == GamePhase::EXPLODING) && (board.At(x, y).isPartOfChain))
+      {
+        resMgr.spOrbs.SetAlpha(explodingAlpha);
         resMgr.spOrbs.Render(
             boardGeometry.x + board.At(x, y).posX,
             boardGeometry.y + board.At(x, y).posY,
