@@ -16,7 +16,7 @@ void Intro::ProcessInput()
     {
       SetNextStateId(STATE_EXIT);
     }
-    else if (event.type == SDL_MOUSEBUTTONDOWN)
+    else if (event.type == SDL_MOUSEBUTTONUP)
     {
       SetNextStateId(STATE_MAINMENU);
     }
