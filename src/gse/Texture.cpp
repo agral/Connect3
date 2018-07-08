@@ -63,12 +63,15 @@ bool Texture::RenderFromTtf(TTF_Font* font, const std::string& text, SDL_Color t
   // Deallocates previous texture (if applicable):
   Free();
 
-  if (r == nullptr)
+  if ((renderer == nullptr) && (r == nullptr))
   {
     std::cerr << "Error: Can not create a TTF texture without a dedicated renderer." << std::endl;
     return false;
   }
-  renderer = r;
+  if (renderer == nullptr)
+  {
+    renderer = r;
+  }
 
   // Renders the text on plain old SDL_Surface using TTF submodule:
   SDL_Surface* surface = TTF_RenderText_Solid(font, text.c_str(), textColor);
