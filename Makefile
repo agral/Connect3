@@ -4,7 +4,7 @@ RM=rm -f
 RM_RECURSIVE=rm -rf
 CXXFLAGS=-g -c -Wall -Wextra -Wpedantic -D_REENTRANT --std=c++1z
 LDFLAGS=
-LDLIBS=-lSDL2 -lSDL2_image
+LDLIBS=-lSDL2 -lSDL2_image -lSDL2_ttf
 EXE_NAME_APP = Connect3
 EXE_NAME_TEST = test_${EXE_NAME_APP}
 
