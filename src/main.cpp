@@ -16,6 +16,18 @@ int main()
   }
   std::cout << "Engine initialized itself successfully." << std::endl;
 
+  if (!resMgr.TryLocateRootPath())
+  {
+    std::cerr << "Critical: Resource manager can not locate the resources directory." << std::endl;
+    std::cerr << "Please make sure that the program is run from its own directory" << std::endl;
+    std::cerr << "($(pwd) should contain Connect3 directory)." << std::endl;
+    exit(1);
+  }
+  else
+  {
+    std::cout << "Res root path: " << resMgr.resRootPath << std::endl;
+  }
+
   if (!resMgr.LoadResources(engine.Renderer()))
   {
     std::cerr << "Warning: Some resources failed to load." << std::endl;
