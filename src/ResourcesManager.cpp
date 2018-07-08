@@ -1,4 +1,5 @@
 #include "ResourcesManager.hpp"
+#include "global/globals.hpp"
 
 #include <vector>
 #include <sys/stat.h>
@@ -46,6 +47,16 @@ bool ResourcesManager::LoadResources(SDL_Renderer* renderer)
   successFlag &= spProgressBar.LoadFromFile(resRootPath + "spritesheet_bars.png", renderer);
   successFlag &= spBtnIngameExit.LoadFromFile(resRootPath + "spritesheet_btn_ingame_exit.png", renderer);
 
+  fIngameScore = TTF_OpenFont((resRootPath + "font/ManualDisplay.ttf").c_str(), 64);
+  successFlag &= (fIngameScore != nullptr);
+  fIngameScoreCaption = TTF_OpenFont((resRootPath + "font/Bitcell.ttf").c_str(), 36);
+  successFlag &= (fIngameScoreCaption != nullptr);
+
+  successFlag &= txIngameScore.RenderFromTtf(fIngameScore, "00000", global::CL_INGAME_SCORE, renderer);
+  successFlag &= txIngameScoreBg.RenderFromTtf(fIngameScore, "88888", global::CL_INGAME_SCORE_BG , renderer);
+  successFlag &= txIngameScoreCaption.RenderFromTtf(fIngameScoreCaption, "YOUR SCORE",
+      global::CL_INGAME_SCORE_CAPTION, renderer);
+
   return successFlag;
 }
 
@@ -62,6 +73,13 @@ void ResourcesManager::FreeResources()
   spBoard.Free();
   spProgressBar.Free();
   spBtnIngameExit.Free();
+
+  TTF_CloseFont(fIngameScore);
+  TTF_CloseFont(fIngameScoreCaption);
+
+  txIngameScore.Free();
+  txIngameScoreBg.Free();
+  txIngameScoreCaption.Free();
 }
 
 ResourcesManager resMgr;

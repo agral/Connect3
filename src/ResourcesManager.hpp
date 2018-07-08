@@ -3,6 +3,7 @@
 
 #include "gse/Texture.hpp"
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
 #include <string>
 
 class ResourcesManager
@@ -25,6 +26,12 @@ class ResourcesManager
   gse::Texture spBoard;
   gse::Texture spProgressBar;
   gse::Texture spBtnIngameExit;
+  gse::Texture txIngameScore;
+  gse::Texture txIngameScoreBg;
+  gse::Texture txIngameScoreCaption;
+  TTF_Font* fIngameScore;
+  TTF_Font* fIngameScoreCaption;
+
 };
 
 extern ResourcesManager resMgr;
