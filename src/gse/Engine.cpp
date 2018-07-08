@@ -69,8 +69,16 @@ bool Engine::Init(int windowWidth, int windowHeight, int fps, const char* window
     int imgFlags = IMG_INIT_PNG;
     if (!(IMG_Init(imgFlags) & imgFlags))
     {
-      std::cerr << "SDL_Image module could not initialize." << std::endl;
+      std::cerr << "SDL_image module could not initialize." << std::endl;
       std::cerr << "SDL_image error: " << IMG_GetError() << std::endl;
+      return false;
+    }
+
+    std::cout << "Initializing the TTF module" << std::endl;
+    if (TTF_Init() == -1)
+    {
+      std::cerr << "SDL_ttf module could not initialize." << std::endl;
+      std::cerr << "SDL_ttf error: " << TTF_GetError() << std::endl;
       return false;
     }
 
