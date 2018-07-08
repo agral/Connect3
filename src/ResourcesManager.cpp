@@ -51,11 +51,14 @@ bool ResourcesManager::LoadResources(SDL_Renderer* renderer)
   successFlag &= (fIngameScore != nullptr);
   fIngameScoreCaption = TTF_OpenFont((resRootPath + "font/Bitcell.ttf").c_str(), 36);
   successFlag &= (fIngameScoreCaption != nullptr);
+  fGameOver = TTF_OpenFont((resRootPath + "font/Bitcell.ttf").c_str(), 72);
+  successFlag &= (fGameOver != nullptr);
 
   successFlag &= txIngameScore.RenderFromTtf(fIngameScore, "00000", global::CL_INGAME_SCORE, renderer);
-  successFlag &= txIngameScoreBg.RenderFromTtf(fIngameScore, "88888", global::CL_INGAME_SCORE_BG , renderer);
+  successFlag &= txIngameScoreBg.RenderFromTtf(fIngameScore, "88888", global::CL_INGAME_SCORE_BG, renderer);
   successFlag &= txIngameScoreCaption.RenderFromTtf(fIngameScoreCaption, "YOUR SCORE",
       global::CL_INGAME_SCORE_CAPTION, renderer);
+  successFlag &= txGameOver.RenderFromTtf(fGameOver, "GAME OVER", global::CL_INGAME_GAMEOVER, renderer);
 
   return successFlag;
 }

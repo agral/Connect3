@@ -29,8 +29,10 @@ class ResourcesManager
   gse::Texture txIngameScore;
   gse::Texture txIngameScoreBg;
   gse::Texture txIngameScoreCaption;
+  gse::Texture txGameOver;
   TTF_Font* fIngameScore;
   TTF_Font* fIngameScoreCaption;
+  TTF_Font* fGameOver;
 
 };
 

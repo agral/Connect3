@@ -67,7 +67,7 @@ TimeTrial::TimeTrial()
   isDragging = false;
   selectedGemXIndex = -1;
   selectedGemYIndex = -1;
-  remainingIdleTime = 60000; // 60000 milliseconds = one minute.
+  remainingIdleTime = global::ROUND_TIME_IN_MILLISECONDS;
   playerScore = 0;
   multiplier = 1;
 
@@ -209,7 +209,7 @@ void TimeTrial::Logic(gse::GameTimeData td)
   {
     // Decrements the game time:
     remainingIdleTime -= td.timeSinceLastFrame;
-    pbTime->SetNormalizedProgress(remainingIdleTime / 60000.0);
+    pbTime->SetNormalizedProgress(remainingIdleTime / global::ROUND_TIME_IN_MILLISECONDS);
 
     if (remainingIdleTime <= 0.0)
     {
@@ -352,6 +352,11 @@ void TimeTrial::Render()
   ss << std::setw(5) << std::setfill('0') << playerScore;
   resMgr.txIngameScore.RenderFromTtf(resMgr.fIngameScore, ss.str(), global::CL_INGAME_SCORE, nullptr);
   resMgr.txIngameScore.Render(35, 35);
+  if (phase == GamePhase::OVER)
+  {
+    resMgr.txGameOver.Render(boardGeometry.x + (boardGeometry.w - resMgr.txGameOver.Width()) / 2,
+        boardGeometry.y + (boardGeometry.h - resMgr.txGameOver.Height()) / 2);
+  }
 }
 
 void TimeTrial::DrawBoard()
