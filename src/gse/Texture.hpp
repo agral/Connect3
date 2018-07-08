@@ -2,6 +2,7 @@
 #define GSE_TEXTURE_HPP
 
 #include <SDL2/SDL.h>
+#include <string>
 
 namespace gse
 {
@@ -11,7 +12,7 @@ class Texture
  public:
   Texture();
   ~Texture();
-  bool LoadFromFile(const char* path, SDL_Renderer* renderer);
+  bool LoadFromFile(std::string path, SDL_Renderer* renderer);
   void Free();
   void SetBlendMode(SDL_BlendMode blendMode);
   void SetAlpha(Uint8 alpha);

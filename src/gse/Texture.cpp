@@ -19,8 +19,9 @@ Texture::~Texture()
   Free();
 }
 
-bool Texture::LoadFromFile(const char* path, SDL_Renderer* r)
+bool Texture::LoadFromFile(std::string path, SDL_Renderer* r)
 {
+  const char* cpath = path.c_str();
   // Deallocates previous texture (if applicable):
   if (texture != nullptr)
   {
@@ -34,7 +35,7 @@ bool Texture::LoadFromFile(const char* path, SDL_Renderer* r)
   }
   renderer = r;
 
-  SDL_Surface* surface = IMG_Load(path);
+  SDL_Surface* surface = IMG_Load(cpath);
   if (surface == nullptr)
   {
     std::cerr << "Error: image [" << path << "] could not be loaded." << std::endl;
