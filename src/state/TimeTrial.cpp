@@ -3,7 +3,9 @@
 
 #include <SDL2/SDL.h>
 #include <cmath>
+#include <iomanip>
 #include <iostream>
+#include <sstream>
 
 namespace state
 {
@@ -66,6 +68,8 @@ TimeTrial::TimeTrial()
   selectedGemXIndex = -1;
   selectedGemYIndex = -1;
   remainingIdleTime = 60000; // 60000 milliseconds = one minute.
+  playerScore = 0;
+  multiplier = 1;
 
   pbTime = std::make_unique<gse::ProgressBar>(resMgr.spProgressBar, 520, 10, gse::ProgressBarColors::GREEN);
   pbTime->SetPosition(boardGeometry.x + (boardGeometry.w - 520) / 2, 10);
@@ -74,6 +78,8 @@ TimeTrial::TimeTrial()
       resMgr.spBtnIngameExit);
   btnExit->SetPosition((200 - resMgr.spBtnIngameExit.Width()) / 2, global::SCREEN_HEIGHT - 90);
   btnExit->SetOnClick(&BtnExitIngameOnClick);
+
+  resMgr.txIngameScore.RenderFromTtf(resMgr.fIngameScore, "00000", global::CL_INGAME_SCORE, nullptr);
 
   phase = GamePhase::FALLING;
   nextPhase = GamePhase::NONE;
@@ -241,6 +247,7 @@ void TimeTrial::Logic(gse::GameTimeData td)
       }
       else
       {
+        multiplier = 1;
         nextPhase = GamePhase::IDLE;
       }
     }
@@ -292,6 +299,7 @@ void TimeTrial::Logic(gse::GameTimeData td)
           if (board.At(x, y).isPartOfChain)
           {
             explodedBelowCounter += 1;
+            playerScore += multiplier;
           }
           else
           {
@@ -320,6 +328,7 @@ void TimeTrial::Logic(gse::GameTimeData td)
         }
       }
 
+      multiplier += 1;
       nextPhase = GamePhase::FALLING;
     }
     else
@@ -337,6 +346,12 @@ void TimeTrial::Render()
   DrawBoardBorder();
   pbTime->Render();
   btnExit->Render();
+  resMgr.txIngameScoreCaption.Render(35, 5);
+  resMgr.txIngameScoreBg.Render(35, 35);
+  std::stringstream ss;
+  ss << std::setw(5) << std::setfill('0') << playerScore;
+  resMgr.txIngameScore.RenderFromTtf(resMgr.fIngameScore, ss.str(), global::CL_INGAME_SCORE, nullptr);
+  resMgr.txIngameScore.Render(35, 35);
 }
 
 void TimeTrial::DrawBoard()

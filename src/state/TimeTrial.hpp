@@ -63,6 +63,8 @@ class TimeTrial : public GameState
   Uint8 explodingAlpha;
   double phaseBirth;
   double remainingIdleTime;
+  int playerScore;
+  int multiplier;
 
   std::unique_ptr<gse::ProgressBar> pbTime;
   std::unique_ptr<gse::Button> btnExit;
