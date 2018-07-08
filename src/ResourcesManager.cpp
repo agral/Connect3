@@ -44,6 +44,7 @@ bool ResourcesManager::LoadResources(SDL_Renderer* renderer)
   successFlag &= spOrbs.LoadFromFile(resRootPath + "spritesheet_orbs.png", renderer);
   successFlag &= spBoard.LoadFromFile(resRootPath + "board_border.png", renderer);
   successFlag &= spProgressBar.LoadFromFile(resRootPath + "spritesheet_bars.png", renderer);
+  successFlag &= spBtnIngameExit.LoadFromFile(resRootPath + "spritesheet_btn_ingame_exit.png", renderer);
 
   return successFlag;
 }
@@ -60,6 +61,7 @@ void ResourcesManager::FreeResources()
   spOrbs.Free();
   spBoard.Free();
   spProgressBar.Free();
+  spBtnIngameExit.Free();
 }
 
 ResourcesManager resMgr;

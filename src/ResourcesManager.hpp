@@ -24,7 +24,7 @@ class ResourcesManager
   gse::Texture spOrbs;
   gse::Texture spBoard;
   gse::Texture spProgressBar;
-
+  gse::Texture spBtnIngameExit;
 };
 
 extern ResourcesManager resMgr;
