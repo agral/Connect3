@@ -53,6 +53,7 @@ class TimeTrial : public GameState
   int dragOriginX, dragOriginY;
   int dragDistanceX, dragDistanceY;
   int filteredDragDistanceX, filteredDragDistanceY;
+  double phaseBirth;
 };
 
 } // namespace state

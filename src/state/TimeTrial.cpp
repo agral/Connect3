@@ -157,6 +157,7 @@ void TimeTrial::Logic(gse::GameTimeData td)
   {
     phase = nextPhase;
     nextPhase = GamePhase::NONE;
+    phaseBirth = td.timeTotal;
     std::cout << "[TimeTrial] Switched to " << GamePhaseNames[phase] << " game phase." << std::endl;
   }
 
