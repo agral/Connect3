@@ -4,9 +4,11 @@
 #include "GameState.hpp"
 #include "../ResourcesManager.hpp"
 #include "../GameBoard.hpp"
+#include "../gse/ProgressBar.hpp"
 
 #include <SDL2/SDL.h>
 #include <map>
+#include <memory>
 #include <string>
 
 namespace state
@@ -58,6 +60,8 @@ class TimeTrial : public GameState
   Uint8 explodingAlpha;
   double phaseBirth;
   double remainingIdleTime;
+
+  std::unique_ptr<gse::ProgressBar> pbTime;
 };
 
 } // namespace state

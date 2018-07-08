@@ -59,6 +59,10 @@ TimeTrial::TimeTrial()
 
   isDragging = false;
   remainingIdleTime = 60000; // 60000 milliseconds = one minute.
+
+  pbTime = std::make_unique<gse::ProgressBar>(resMgr.spProgressBar, 520, 10, gse::ProgressBarColors::GREEN);
+  pbTime->SetPosition((global::SCREEN_WIDTH - 520) / 2, 10);
+
   phase = GamePhase::FALLING;
   nextPhase = GamePhase::NONE;
 }
@@ -180,6 +184,7 @@ void TimeTrial::Logic(gse::GameTimeData td)
   {
     // Decrements the game time:
     remainingIdleTime -= td.timeSinceLastFrame;
+    pbTime->SetNormalizedProgress(remainingIdleTime / 60000.0);
     std::cout << "Time left: " << remainingIdleTime / 1000.0 << " seconds." << std::endl;
 
     if (remainingIdleTime <= 0.0)
@@ -313,6 +318,7 @@ void TimeTrial::Render()
   // Render any background?
   DrawBoard();
   DrawBoardBorder();
+  pbTime->Render();
 }
 
 void TimeTrial::DrawBoard()
