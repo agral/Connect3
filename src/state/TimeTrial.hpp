@@ -12,6 +12,7 @@ namespace state
 
 enum class GamePhase
 {
+  NONE,
   IDLE,
   SWAPPING,
   EXPLODING,
@@ -32,6 +33,7 @@ class TimeTrial : public GameState
   SDL_Rect boardGeometry;
   GameBoard board;
   GamePhase phase;
+  GamePhase nextPhase;
   void DrawBoard();
 
   bool isDragging;

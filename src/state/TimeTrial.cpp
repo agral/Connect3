@@ -45,6 +45,7 @@ TimeTrial::TimeTrial()
 
   isDragging = false;
   phase = GamePhase::FALLING;
+  nextPhase = GamePhase::NONE;
 }
 
 void TimeTrial::ProcessInput()
@@ -149,6 +150,12 @@ void TimeTrial::ProcessInput()
 
 void TimeTrial::Logic(gse::GameTimeData td)
 {
+  // Switches to the next state, if applicable:
+  if (nextPhase != GamePhase::NONE)
+  {
+    phase = nextPhase;
+  }
+
   if (phase == GamePhase::FALLING)
   {
     bool isStillFalling = false;
@@ -178,7 +185,7 @@ void TimeTrial::Logic(gse::GameTimeData td)
       }
       else
       {
-        phase = GamePhase::IDLE;
+        nextPhase = GamePhase::IDLE;
         std::cout << "Switching to IDLE." << std::endl;
       }
     }
