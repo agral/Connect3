@@ -63,6 +63,8 @@ TimeTrial::TimeTrial()
   }
 
   isDragging = false;
+  selectedGemXIndex = -1;
+  selectedGemYIndex = -1;
   remainingIdleTime = 60000; // 60000 milliseconds = one minute.
 
   pbTime = std::make_unique<gse::ProgressBar>(resMgr.spProgressBar, 520, 10, gse::ProgressBarColors::GREEN);
@@ -108,11 +110,37 @@ void TimeTrial::ProcessInput()
         {
           if (std::max(std::abs(filteredDragDistanceX), std::abs(filteredDragDistanceY)) < DRAG_THRESHOLD)
           {
-            // @TODO: implement click-to-swap scenario.
+            int pointedGemXIndex = (mouseX - boardGeometry.x) / ORB_SIZE;
+            int pointedGemYIndex = (mouseY - boardGeometry.y) / ORB_SIZE;
+
+            if (selectedGemXIndex >= 0)
+            {
+              if ((pointedGemXIndex == selectedGemXIndex) && (pointedGemYIndex == selectedGemYIndex))
+              {
+                // Unselects the selected Gem when it's clicked again:
+                selectedGemXIndex = -1;
+                selectedGemYIndex = -1;
+              }
+              else
+              {
+                // Performs the swappping, but only iff selected and this Gem are horizontal or vertical neighbors:
+                int deltaX = std::abs(selectedGemXIndex - pointedGemXIndex);
+                int deltaY = std::abs(selectedGemYIndex - pointedGemYIndex);
+                if (((deltaX == 1) && (deltaY == 0)) || ((deltaX == 0) && (deltaY == 1)))
+                {
+                  CheckAndSwap(selectedGemXIndex, selectedGemYIndex, pointedGemXIndex, pointedGemYIndex);
+                }
+              }
+            }
+            else
+            {
+              // Selects the clicked Gem when no other Gem is selected:
+              selectedGemXIndex = (mouseX - boardGeometry.x) / ORB_SIZE;
+              selectedGemYIndex = (mouseY - boardGeometry.y) / ORB_SIZE;
+            }
           }
           else
           {
-            // @TODO: implement swipe-to-swap scenario.
             otherGemXIndex = draggedGemXIndex;
             otherGemYIndex = draggedGemYIndex;
             if (filteredDragDistanceX < -DRAG_THRESHOLD)
@@ -132,28 +160,7 @@ void TimeTrial::ProcessInput()
               otherGemYIndex += 1;
             }
 
-            // Safeguards against dragging Gems off the board:
-            if ((otherGemXIndex >= 0) && (otherGemXIndex < board.Width()) &&
-                (otherGemYIndex >= 0) && (otherGemYIndex < board.Height()))
-            {
-              // Swaps the two gems on a model board:
-              std::cout << "SWAP: [" << draggedGemXIndex << ", " << draggedGemYIndex
-                  << "] and [" << otherGemXIndex << ", " << otherGemYIndex << "]" << std::endl;
-              board.SwapColors(draggedGemXIndex, draggedGemYIndex, otherGemXIndex, otherGemYIndex);
-              if (board.FindChains())
-              {
-                std::cout << "SWAP OK - Chains are formed." << std::endl;
-
-                // Enters the SWAPPING phase in this iteration's logic handling:
-                nextPhase = GamePhase::SWAPPING;
-              }
-              else
-              {
-                std::cout << "Swap failed - no new chains." << std::endl;
-                // Reverts the color change back
-                board.SwapColors(draggedGemXIndex, draggedGemYIndex, otherGemXIndex, otherGemYIndex);
-              }
-            }
+            CheckAndSwap(draggedGemXIndex, draggedGemYIndex, otherGemXIndex, otherGemYIndex);
           }
         }
         else if (event.type == SDL_MOUSEBUTTONDOWN)
@@ -197,7 +204,6 @@ void TimeTrial::Logic(gse::GameTimeData td)
     // Decrements the game time:
     remainingIdleTime -= td.timeSinceLastFrame;
     pbTime->SetNormalizedProgress(remainingIdleTime / 60000.0);
-    std::cout << "Time left: " << remainingIdleTime / 1000.0 << " seconds." << std::endl;
 
     if (remainingIdleTime <= 0.0)
     {
@@ -349,6 +355,12 @@ void TimeTrial::DrawBoard()
   {
     for (int y = 0; y < board.Height(); ++y)
     {
+      // Indicates the selected gem by drawing a halo underneath it (exclusively in IDLE phase):
+      if ((phase == GamePhase::IDLE) && (x == selectedGemXIndex) && (y == selectedGemYIndex))
+      {
+        resMgr.txHalo.Render(boardGeometry.x + x * ORB_SIZE, boardGeometry.y + y * ORB_SIZE);
+      }
+
       // Renders all the static gems normally:
       if ((!(isDragging && (x == draggedGemXIndex) && (y == draggedGemYIndex))) &&
           (!((phase == GamePhase::EXPLODING) && (board.At(x, y).isPartOfChain))))
@@ -424,6 +436,42 @@ void TimeTrial::DrawBoardBorder()
   {
     resMgr.spBoard.Render(boardGeometry.x - boardClips[4].w, boardGeometry.y + boardClips[4].h * y, &boardClips[4]);
     resMgr.spBoard.Render(boardGeometry.x + boardGeometry.w, boardGeometry.y + boardClips[6].h * y, &boardClips[6]);
+  }
+}
+
+void TimeTrial::CheckAndSwap(int gemAIndexX, int gemAIndexY, int gemBIndexX, int gemBIndexY)
+{
+  // Safeguards against dragging Gems off the board:
+  if ((gemAIndexX >= 0) && (gemAIndexX < board.Width()) &&
+      (gemAIndexY >= 0) && (gemAIndexY < board.Height()) &&
+      (gemBIndexX >= 0) && (gemBIndexX < board.Width()) &&
+      (gemBIndexY >= 0) && (gemBIndexY < board.Height()))
+  {
+    // Swaps the two gems on a model board:
+    std::cout << "SWAP: [" << gemAIndexX << ", " << gemAIndexY << "] and ["
+        << gemBIndexX << ", " << gemBIndexY << "]" << std::endl;
+    board.SwapColors(gemAIndexX, gemAIndexY, gemBIndexX, gemBIndexY);
+    if (board.FindChains())
+    {
+      // Marks gems A&B as the ones to be dragged around when swapping:
+      draggedGemXIndex = gemAIndexX;
+      draggedGemYIndex = gemAIndexY;
+      otherGemXIndex = gemBIndexX;
+      otherGemYIndex = gemBIndexY;
+
+      // Unselects the previously selected Gem, if applicable:
+      selectedGemXIndex = -1;
+      selectedGemYIndex = -1;
+
+      // Enters the SWAPPING phase in this iteration's logic handling:
+      nextPhase = GamePhase::SWAPPING;
+    }
+    else
+    {
+      std::cout << "Swap failed - no new chains." << std::endl;
+      // Reverts the color change back:
+      board.SwapColors(gemAIndexX, gemAIndexY, gemBIndexX, gemBIndexY);
+    }
   }
 }
 

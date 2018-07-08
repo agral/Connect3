@@ -51,6 +51,7 @@ class TimeTrial : public GameState
   GamePhase nextPhase;
   void DrawBoard();
   void DrawBoardBorder();
+  void CheckAndSwap(int gemAIndexX, int gemAIndexY, int gemBIndexX, int gemBIndexY);
 
   bool isDragging;
   int draggedGemXIndex, draggedGemYIndex;
@@ -58,6 +59,7 @@ class TimeTrial : public GameState
   int dragOriginX, dragOriginY;
   int dragDistanceX, dragDistanceY;
   int filteredDragDistanceX, filteredDragDistanceY;
+  int selectedGemXIndex, selectedGemYIndex;
   Uint8 explodingAlpha;
   double phaseBirth;
   double remainingIdleTime;
