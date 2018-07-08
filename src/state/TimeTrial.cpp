@@ -73,6 +73,7 @@ TimeTrial::TimeTrial()
 
   pbTime = std::make_unique<gse::ProgressBar>(resMgr.spProgressBar, 520, 10, gse::ProgressBarColors::GREEN);
   pbTime->SetPosition(boardGeometry.x + (boardGeometry.w - 520) / 2, 10);
+  pbTime->SetForegroundColor(gse::ProgressBarColors::BLUE);
 
   btnExit = std::make_unique<gse::Button>(resMgr.spBtnIngameExit.Width(), resMgr.spBtnIngameExit.Height() / 3,
       resMgr.spBtnIngameExit);
@@ -248,6 +249,7 @@ void TimeTrial::Logic(gse::GameTimeData td)
       else
       {
         multiplier = 1;
+        pbTime->SetForegroundColor(gse::ProgressBarColors::GREEN);
         nextPhase = GamePhase::IDLE;
       }
     }
@@ -482,6 +484,8 @@ void TimeTrial::CheckAndSwap(int gemAIndexX, int gemAIndexY, int gemBIndexX, int
       // Unselects the previously selected Gem, if applicable:
       selectedGemXIndex = -1;
       selectedGemYIndex = -1;
+
+      pbTime->SetForegroundColor(gse::ProgressBarColors::BLUE);
 
       // Enters the SWAPPING phase in this iteration's logic handling:
       nextPhase = GamePhase::SWAPPING;

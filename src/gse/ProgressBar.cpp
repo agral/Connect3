@@ -38,6 +38,11 @@ void ProgressBar::SetNormalizedProgress(double newNormalizedProgress)
   normalizedProgress = newNormalizedProgress;
 }
 
+void ProgressBar::SetForegroundColor(int colorCode)
+{
+  colorFg = colorCode;
+}
+
 void ProgressBar::Render()
 {
   // Renders the colored progressbar:

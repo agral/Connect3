@@ -29,6 +29,7 @@ class ProgressBar
   ProgressBar(Texture& spritesheet, int totalWidthPx, int capWidthPx, int color = ProgressBarColors::YELLOW);
   void SetPosition(int newPosX, int newPosY);
   void SetNormalizedProgress(double newNormalizedProgress);
+  void SetForegroundColor(int colorCode);
   void Render();
 
  private:
