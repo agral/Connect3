@@ -5,6 +5,7 @@
 #include "../ResourcesManager.hpp"
 #include "../GameBoard.hpp"
 #include "../gse/ProgressBar.hpp"
+#include "../gse/Button.hpp"
 
 #include <SDL2/SDL.h>
 #include <map>
@@ -62,6 +63,7 @@ class TimeTrial : public GameState
   double remainingIdleTime;
 
   std::unique_ptr<gse::ProgressBar> pbTime;
+  std::unique_ptr<gse::Button> btnExit;
 };
 
 } // namespace state

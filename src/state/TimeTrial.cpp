@@ -19,6 +19,11 @@ inline int Signum(int value)
   return (value > 0) - (value < 0);
 }
 
+void BtnExitIngameOnClick()
+{
+  SetNextStateId(STATE_MAINMENU);
+}
+
 TimeTrial::TimeTrial()
 {
   orbClips[0] = {0, 0, ORB_SIZE, ORB_SIZE};
@@ -62,6 +67,11 @@ TimeTrial::TimeTrial()
 
   pbTime = std::make_unique<gse::ProgressBar>(resMgr.spProgressBar, 520, 10, gse::ProgressBarColors::GREEN);
   pbTime->SetPosition(boardGeometry.x + (boardGeometry.w - 520) / 2, 10);
+
+  btnExit = std::make_unique<gse::Button>(resMgr.spBtnIngameExit.Width(), resMgr.spBtnIngameExit.Height() / 3,
+      resMgr.spBtnIngameExit);
+  btnExit->SetPosition((200 - resMgr.spBtnIngameExit.Width()) / 2, global::SCREEN_HEIGHT - 90);
+  btnExit->SetOnClick(&BtnExitIngameOnClick);
 
   phase = GamePhase::FALLING;
   nextPhase = GamePhase::NONE;
@@ -165,6 +175,8 @@ void TimeTrial::ProcessInput()
           }
         }
       }
+
+      btnExit->ProcessInput(event, mouseX, mouseY);
     }
   }
 }
@@ -315,12 +327,10 @@ void TimeTrial::Logic(gse::GameTimeData td)
 
 void TimeTrial::Render()
 {
-  // Render any background?
-
-
   DrawBoard();
   DrawBoardBorder();
   pbTime->Render();
+  btnExit->Render();
 }
 
 void TimeTrial::DrawBoard()
