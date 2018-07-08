@@ -110,7 +110,6 @@ void TimeTrial::ProcessInput()
               // Swaps the two gems on a model board:
               std::cout << "SWAP: [" << draggedGemXIndex << ", " << draggedGemYIndex
                   << "] and [" << otherGemXIndex << ", " << otherGemYIndex << "]" << std::endl;
-
               board.SwapColors(draggedGemXIndex, draggedGemYIndex, otherGemXIndex, otherGemYIndex);
               if (board.FindChains())
               {
@@ -120,7 +119,7 @@ void TimeTrial::ProcessInput()
               {
                 std::cout << "Swap failed - no new chains." << std::endl;
               }
-              // Reverts this change back
+              // Reverts the color change back
               board.SwapColors(draggedGemXIndex, draggedGemYIndex, otherGemXIndex, otherGemYIndex);
             }
           }
@@ -154,6 +153,8 @@ void TimeTrial::Logic(gse::GameTimeData td)
   if (nextPhase != GamePhase::NONE)
   {
     phase = nextPhase;
+    nextPhase = GamePhase::NONE;
+    std::cout << "[TimeTrial] Switched to " << GamePhaseNames[phase] << " game phase." << std::endl;
   }
 
   if (phase == GamePhase::FALLING)
@@ -189,6 +190,9 @@ void TimeTrial::Logic(gse::GameTimeData td)
         std::cout << "Switching to IDLE." << std::endl;
       }
     }
+  }
+  else if (phase == GamePhase::SWAPPING)
+  {
   }
 }
 

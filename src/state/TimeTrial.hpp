@@ -6,6 +6,8 @@
 #include "../GameBoard.hpp"
 
 #include <SDL2/SDL.h>
+#include <map>
+#include <string>
 
 namespace state
 {
@@ -18,6 +20,15 @@ enum class GamePhase
   EXPLODING,
   FALLING,
   OVER,
+};
+
+static std::map<GamePhase, std::string> GamePhaseNames = {
+  {GamePhase::NONE, "NONE"},
+  {GamePhase::IDLE, "IDLE"},
+  {GamePhase::SWAPPING, "SWAPPING"},
+  {GamePhase::EXPLODING, "EXPLODING"},
+  {GamePhase::FALLING, "FALLING"},
+  {GamePhase::OVER, "OVER"},
 };
 
 class TimeTrial : public GameState
