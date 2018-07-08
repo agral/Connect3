@@ -26,6 +26,18 @@ TimeTrial::TimeTrial()
   orbClips[3] = {3 * ORB_SIZE, 0, ORB_SIZE, ORB_SIZE};
   orbClips[4] = {4 * ORB_SIZE, 0, ORB_SIZE, ORB_SIZE};
 
+  // boardClip #5 is used for board filling; #1-#4 and #6-#9 are used as borders same as numpad keys
+  // (e.g. #1 is used for bottom-left border piece, #6 is used for central-right border piece). #0 is unused.
+  boardClips[1] = {0, 108, 44, 44};
+  boardClips[2] = {44, 108, 64, 44};
+  boardClips[3] = {108, 108, 44, 44};
+  boardClips[4] = {0, 44, 44, 64};
+  boardClips[5] = {44, 44, 64, 64};
+  boardClips[6] = {108, 44, 44, 64};
+  boardClips[7] = {0, 0, 44, 44};
+  boardClips[8] = {44, 0, 64, 44};
+  boardClips[9] = {108, 0, 44, 44};
+
   boardGeometry = {
     (global::SCREEN_WIDTH - (global::GAMEBOARD_WIDTH * ORB_SIZE)) / 2,
     (global::SCREEN_HEIGHT - (global::GAMEBOARD_HEIGHT * ORB_SIZE)) / 2,
@@ -286,13 +298,24 @@ void TimeTrial::Render()
 {
   // Render any background?
   DrawBoard();
+  DrawBoardBorder();
 }
 
 void TimeTrial::DrawBoard()
 {
+  // Draws the board background:
   for (int x = 0; x < board.Width(); ++x)
   {
-    for(int y = 0; y < board.Height(); ++y)
+    for (int y = 0; y < board.Height(); ++y)
+    {
+      resMgr.spBoard.Render(boardGeometry.x + x * ORB_SIZE, boardGeometry.y + y * ORB_SIZE, &boardClips[5]);
+    }
+  }
+
+  // Draws the Gems:
+  for (int x = 0; x < board.Width(); ++x)
+  {
+    for (int y = 0; y < board.Height(); ++y)
     {
       // Renders all the static gems normally:
       if ((!(isDragging && (x == draggedGemXIndex) && (y == draggedGemYIndex))) &&
@@ -350,6 +373,25 @@ void TimeTrial::DrawBoard()
         &orbClips[board.At(draggedGemXIndex, draggedGemYIndex).color]
     );
     resMgr.spOrbs.SetAlpha(255);
+  }
+}
+
+void TimeTrial::DrawBoardBorder()
+{
+  resMgr.spBoard.Render(boardGeometry.x - boardClips[7].w, boardGeometry.y - boardClips[7].h, &boardClips[7]);
+  resMgr.spBoard.Render(boardGeometry.x + boardGeometry.w, boardGeometry.y - boardClips[9].h, &boardClips[9]);
+  resMgr.spBoard.Render(boardGeometry.x - boardClips[1].w, boardGeometry.y + boardGeometry.h, &boardClips[1]);
+  resMgr.spBoard.Render(boardGeometry.x + boardGeometry.w, boardGeometry.y + boardGeometry.h, &boardClips[3]);
+
+  for (int x = 0; x < board.Width(); ++x)
+  {
+    resMgr.spBoard.Render(boardGeometry.x + boardClips[8].w * x, boardGeometry.y - boardClips[8].h, &boardClips[8]);
+    resMgr.spBoard.Render(boardGeometry.x + boardClips[2].w * x, boardGeometry.y + boardGeometry.h, &boardClips[2]);
+  }
+  for (int y = 0; y < board.Height(); ++y)
+  {
+    resMgr.spBoard.Render(boardGeometry.x - boardClips[4].w, boardGeometry.y + boardClips[4].h * y, &boardClips[4]);
+    resMgr.spBoard.Render(boardGeometry.x + boardGeometry.w, boardGeometry.y + boardClips[6].h * y, &boardClips[6]);
   }
 }
 

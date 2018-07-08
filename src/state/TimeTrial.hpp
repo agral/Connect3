@@ -41,11 +41,13 @@ class TimeTrial : public GameState
 
  private:
   SDL_Rect orbClips[5];
+  SDL_Rect boardClips[10];
   SDL_Rect boardGeometry;
   GameBoard board;
   GamePhase phase;
   GamePhase nextPhase;
   void DrawBoard();
+  void DrawBoardBorder();
 
   bool isDragging;
   int draggedGemXIndex, draggedGemYIndex;
