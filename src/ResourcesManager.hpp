@@ -20,6 +20,7 @@ class ResourcesManager
   gse::Texture spBtnTimeTrial;
   gse::Texture spOrbs;
   gse::Texture spBoard;
+  gse::Texture spProgressBar;
 };
 
 extern ResourcesManager resMgr;
