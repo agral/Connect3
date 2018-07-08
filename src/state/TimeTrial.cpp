@@ -10,6 +10,7 @@ namespace state
 
 const int ORB_SIZE = global::ORB_SIZE;
 const int DRAG_THRESHOLD = 0.3 * ORB_SIZE;
+const double swapAnimationTime = 400; //milliseconds
 
 inline int Signum(int value)
 {
@@ -197,6 +198,35 @@ void TimeTrial::Logic(gse::GameTimeData td)
   }
   else if (phase == GamePhase::SWAPPING)
   {
+    double animTime = td.timeTotal - phaseBirth;
+
+    // Easing function: sin(t) from 0.5PI (max) to 1.5PI (min)
+    double distance = animTime > swapAnimationTime ?
+        0 : (0.5 * ORB_SIZE * (1 + std::sin(M_PI * (animTime / swapAnimationTime + 0.5))));
+
+    double swapDirectionX = (draggedGemXIndex - otherGemXIndex);
+    double swapDirectionY = (draggedGemYIndex - otherGemYIndex);
+    if (swapDirectionX != 0)
+    {
+      board.At(draggedGemXIndex, draggedGemYIndex).posX = (draggedGemXIndex * ORB_SIZE) - (swapDirectionX * distance);
+      board.At(otherGemXIndex, otherGemYIndex).posX = (otherGemXIndex * ORB_SIZE) + (swapDirectionX * distance);
+    }
+    else if (swapDirectionY != 0)
+    {
+      board.At(draggedGemXIndex, draggedGemYIndex).posY = (draggedGemYIndex * ORB_SIZE) - (swapDirectionY * distance);
+      board.At(otherGemXIndex, otherGemYIndex).posY = (otherGemYIndex * ORB_SIZE) + (swapDirectionY * distance);
+    }
+
+    if (animTime >= swapAnimationTime)
+    {
+      // Puts the swapped gems both in their exact places:
+      board.At(draggedGemXIndex, draggedGemYIndex).posX = draggedGemXIndex * ORB_SIZE;
+      board.At(draggedGemXIndex, draggedGemYIndex).posY = draggedGemYIndex * ORB_SIZE;
+      board.At(otherGemXIndex, otherGemYIndex).posX = otherGemXIndex * ORB_SIZE;
+      board.At(otherGemXIndex, otherGemYIndex).posY = otherGemYIndex * ORB_SIZE;
+
+      nextPhase = GamePhase::EXPLODING;
+    }
   }
 }
 
