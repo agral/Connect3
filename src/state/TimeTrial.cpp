@@ -12,6 +12,7 @@ const int ORB_SIZE = global::ORB_SIZE;
 const int DRAG_THRESHOLD = 0.3 * ORB_SIZE;
 const double swapAnimationTime = 400; //milliseconds
 const double explodeAnimationTime = 1000; // milliseconds
+const int BORDER_SIZE = 44;
 
 inline int Signum(int value)
 {
@@ -39,8 +40,7 @@ TimeTrial::TimeTrial()
   boardClips[9] = {108, 0, 44, 44};
 
   boardGeometry = {
-    (global::SCREEN_WIDTH - (global::GAMEBOARD_WIDTH * ORB_SIZE)) / 2,
-    (global::SCREEN_HEIGHT - (global::GAMEBOARD_HEIGHT * ORB_SIZE)) / 2,
+    (global::SCREEN_WIDTH - (global::GAMEBOARD_WIDTH * ORB_SIZE) - BORDER_SIZE), BORDER_SIZE,
     global::GAMEBOARD_WIDTH * ORB_SIZE,
     global::GAMEBOARD_HEIGHT * ORB_SIZE
   };
@@ -61,7 +61,7 @@ TimeTrial::TimeTrial()
   remainingIdleTime = 60000; // 60000 milliseconds = one minute.
 
   pbTime = std::make_unique<gse::ProgressBar>(resMgr.spProgressBar, 520, 10, gse::ProgressBarColors::GREEN);
-  pbTime->SetPosition((global::SCREEN_WIDTH - 520) / 2, 10);
+  pbTime->SetPosition(boardGeometry.x + (boardGeometry.w - 520) / 2, 10);
 
   phase = GamePhase::FALLING;
   nextPhase = GamePhase::NONE;
@@ -316,6 +316,8 @@ void TimeTrial::Logic(gse::GameTimeData td)
 void TimeTrial::Render()
 {
   // Render any background?
+
+
   DrawBoard();
   DrawBoardBorder();
   pbTime->Render();
