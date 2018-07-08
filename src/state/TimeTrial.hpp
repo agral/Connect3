@@ -49,6 +49,7 @@ class TimeTrial : public GameState
 
   bool isDragging;
   int draggedGemXIndex, draggedGemYIndex;
+  int otherGemXIndex, otherGemYIndex;
   int dragOriginX, dragOriginY;
   int dragDistanceX, dragDistanceY;
   int filteredDragDistanceX, filteredDragDistanceY;

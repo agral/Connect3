@@ -84,8 +84,8 @@ void TimeTrial::ProcessInput()
           else
           {
             // @TODO: implement swipe-to-swap scenario.
-            int otherGemXIndex = draggedGemXIndex;
-            int otherGemYIndex = draggedGemYIndex;
+            otherGemXIndex = draggedGemXIndex;
+            otherGemYIndex = draggedGemYIndex;
             if (filteredDragDistanceX < -DRAG_THRESHOLD)
             {
               otherGemXIndex -= 1;
@@ -114,13 +114,16 @@ void TimeTrial::ProcessInput()
               if (board.FindChains())
               {
                 std::cout << "SWAP OK - Chains are formed." << std::endl;
+
+                // Enters the SWAPPING phase in this iteration's logic handling:
+                nextPhase = GamePhase::SWAPPING;
               }
               else
               {
                 std::cout << "Swap failed - no new chains." << std::endl;
+                // Reverts the color change back
+                board.SwapColors(draggedGemXIndex, draggedGemYIndex, otherGemXIndex, otherGemYIndex);
               }
-              // Reverts the color change back
-              board.SwapColors(draggedGemXIndex, draggedGemYIndex, otherGemXIndex, otherGemYIndex);
             }
           }
         }
