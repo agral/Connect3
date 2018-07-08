@@ -165,6 +165,11 @@ void GameBoard::SwapColors(int ax, int ay, int bx, int by)
   std::swap(this->At(ax, ay).color, this->At(bx, by).color);
 }
 
+void GameBoard::SetRandomColor(int x, int y)
+{
+  board[y][x].color = distGem(twister);
+}
+
 Gem& GameBoard::At(int x, int y)
 {
   if ((x >= 0) && (x < width) && (y >= 0) && (y < height))
