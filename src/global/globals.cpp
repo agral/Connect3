@@ -13,4 +13,8 @@ const int ORBS_TYPES_COUNT = 5;
 const int ORB_SIZE = 64;
 const double gravityConstant = 0.001; // pixels per millisecond-squared
 
+const SDL_Color CL_INGAME_SCORE = SDL_Color{240, 35, 0, 255};
+const SDL_Color CL_INGAME_SCORE_BG = SDL_Color{50, 10, 0, 255};
+const SDL_Color CL_INGAME_SCORE_CAPTION = SDL_Color{50, 50, 240, 255};
+
 } // namespace global
