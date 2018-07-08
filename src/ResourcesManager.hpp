@@ -19,6 +19,7 @@ class ResourcesManager
   gse::Texture spBtnExit;
   gse::Texture spBtnTimeTrial;
   gse::Texture spOrbs;
+  gse::Texture spBoard;
 };
 
 extern ResourcesManager resMgr;

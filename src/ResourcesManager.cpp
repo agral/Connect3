@@ -12,6 +12,7 @@ bool ResourcesManager::LoadResources(SDL_Renderer* renderer)
   successFlag &= spBtnExit.LoadFromFile("./res/spritesheet_btn_exit.png", renderer);
   successFlag &= spBtnTimeTrial.LoadFromFile("./res/spritesheet_btn_timetrial.png", renderer);
   successFlag &= spOrbs.LoadFromFile("./res/spritesheet_orbs.png", renderer);
+  successFlag &= spBoard.LoadFromFile("./res/board_border.png", renderer);
 
   return successFlag;
 }
@@ -26,6 +27,7 @@ void ResourcesManager::FreeResources()
   spBtnExit.Free();
   spBtnTimeTrial.Free();
   spOrbs.Free();
+  spBoard.Free();
 }
 
 ResourcesManager resMgr;
