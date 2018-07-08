@@ -58,6 +58,7 @@ TimeTrial::TimeTrial()
   }
 
   isDragging = false;
+  remainingIdleTime = 60000; // 60000 milliseconds = one minute.
   phase = GamePhase::FALLING;
   nextPhase = GamePhase::NONE;
 }
@@ -173,6 +174,19 @@ void TimeTrial::Logic(gse::GameTimeData td)
     nextPhase = GamePhase::NONE;
     phaseBirth = td.timeTotal;
     std::cout << "[TimeTrial] Switched to " << GamePhaseNames[phase] << " game phase." << std::endl;
+  }
+
+  if (phase == GamePhase::IDLE)
+  {
+    // Decrements the game time:
+    remainingIdleTime -= td.timeSinceLastFrame;
+    std::cout << "Time left: " << remainingIdleTime / 1000.0 << " seconds." << std::endl;
+
+    if (remainingIdleTime <= 0.0)
+    {
+      std::cout << "End of remaining idle time." << std::endl;
+      nextPhase = GamePhase::OVER;
+    }
   }
 
   if (phase == GamePhase::FALLING)

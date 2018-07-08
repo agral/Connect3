@@ -57,6 +57,7 @@ class TimeTrial : public GameState
   int filteredDragDistanceX, filteredDragDistanceY;
   Uint8 explodingAlpha;
   double phaseBirth;
+  double remainingIdleTime;
 };
 
 } // namespace state
