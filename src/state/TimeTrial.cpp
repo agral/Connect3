@@ -71,9 +71,8 @@ TimeTrial::TimeTrial()
   playerScore = 0;
   multiplier = 1;
 
-  pbTime = std::make_unique<gse::ProgressBar>(resMgr.spProgressBar, 520, 10, gse::ProgressBarColors::GREEN);
+  pbTime = std::make_unique<gse::ProgressBar>(resMgr.spProgressBar, 520, 10, gse::ProgressBarColors::BLUE);
   pbTime->SetPosition(boardGeometry.x + (boardGeometry.w - 520) / 2, 10);
-  pbTime->SetForegroundColor(gse::ProgressBarColors::BLUE);
 
   btnExit = std::make_unique<gse::Button>(resMgr.spBtnIngameExit.Width(), resMgr.spBtnIngameExit.Height() / 3,
       resMgr.spBtnIngameExit);
