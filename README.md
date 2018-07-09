@@ -31,3 +31,5 @@ Unless stated otherwise in the individual files,
 the entire content of this repository is available under the **MIT License**
 found in the [LICENSE file](LICENSE).
 
+### Screencasts
+[![Official Connect3 screencast](https://img.youtube.com/vi/oGTyfh3GC2w/0.jpg)](https://www.youtube.com/watch?v=oGTyfh3GC2w)
