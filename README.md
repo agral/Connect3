@@ -32,5 +32,5 @@ the entire content of this repository is available under the **MIT License**
 found in the [LICENSE file](LICENSE).
 
 ### Screencasts
-[![Official Connect3 screencast](https://img.youtube.com/vi/oGTyfh3GC2w/0.jpg)](https://www.youtube.com/watch?v=oGTyfh3GC2w)
+[![Official Connect3 screencast](https://img.youtube.com/vi/oGTyfh3GC2w/0.jpg)](https://www.youtube.com/watch?v=oGTyfh3GC2w)    
 _Playing Connect3_: features playing one round of Connect3. [https://www.youtube.com/watch?v=oGTyfh3GC2w](https://www.youtube.com/watch?v=oGTyfh3GC2w)
