@@ -2,6 +2,7 @@
 #include "../global/globals.hpp"
 
 #include <SDL2/SDL.h>
+#include <cmath>
 #include <iostream>
 
 namespace state
