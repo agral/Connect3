@@ -5,7 +5,7 @@
 #include "ResourcesManager.hpp"
 #include "state/GameStateMaster.hpp"
 
-int main()
+int main(int, char **)
 {
   gse::Engine engine;
   if (!engine.Init(global::SCREEN_WIDTH, global::SCREEN_HEIGHT,
