@@ -5,13 +5,14 @@
 #include "Intro.hpp"
 #include "MainMenu.hpp"
 #include "TimeTrial.hpp"
+#include <memory>
 
 namespace state
 {
 
 extern int currentStateId;
 extern int nextStateId;
-extern GameState* currentState;
+extern std::unique_ptr<GameState> currentState;
 
 void SetNextStateId(int newNextStateId);
 void ChangeState();

@@ -5,7 +5,7 @@ namespace state
 
 int nextStateId = STATE_NONE;
 int currentStateId = STATE_NONE;
-GameState* currentState = nullptr;
+std::unique_ptr<GameState> currentState = nullptr;
 
 void SetNextStateId(int newNextStateId)
 {
@@ -20,22 +20,20 @@ void ChangeState()
   // nextStateId set to anything other than STATE_NONE means that the state has to be changed:
   if (nextStateId != STATE_NONE)
   {
-    if (nextStateId != STATE_EXIT)
-    {
-      delete currentState;
-    }
-
     if (nextStateId == STATE_INTRO)
     {
-      currentState = new Intro();
+      std::unique_ptr<Intro> intro = std::make_unique<Intro>();
+      currentState = std::move(intro);
     }
     else if (nextStateId == STATE_MAINMENU)
     {
-      currentState = new MainMenu();
+      std::unique_ptr<MainMenu> mainMenu = std::make_unique<MainMenu>();
+      currentState = std::move(mainMenu);
     }
     else if (nextStateId == STATE_TIMETRIAL)
     {
-      currentState = new TimeTrial();
+      std::unique_ptr<TimeTrial> timeTrial = std::make_unique<TimeTrial>();
+      currentState = std::move(timeTrial);
     }
 
     currentStateId = nextStateId;

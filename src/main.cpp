@@ -33,8 +33,8 @@ int main(int, char **)
     std::cerr << "Warning: Some resources failed to load." << std::endl;
   }
 
-  state::currentStateId = state::STATE_INTRO;
-  state::currentState = new state::Intro();
+  state::nextStateId = state::STATE_INTRO;
+  state::ChangeState();
 
   std::cout << "Starting the engine's main loop..." << std::endl;
   engine.StartMainLoop();

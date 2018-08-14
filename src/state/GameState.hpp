@@ -2,6 +2,7 @@
 #define STATE_GAMESTATE_HPP
 
 #include "../gse/GameTimeData.hpp"
+#include <memory>
 
 namespace state
 {
@@ -26,7 +27,7 @@ enum GameStates
 
 extern int currentStateId;
 extern int nextStateId;
-extern GameState* currentState;
+extern std::unique_ptr<GameState> currentState;
 
 void SetNextStateId(int newNextStateId);
 void ChangeState();
